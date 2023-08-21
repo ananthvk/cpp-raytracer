@@ -1,5 +1,5 @@
 #pragma once
-#include "commons.h"
+#include "commons.hpp"
 
 // A struct to represent colors
 struct colorf

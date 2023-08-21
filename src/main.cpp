@@ -1,6 +1,6 @@
-#include "colors.h"
-#include "image.h"
-#include "progressbar.h"
+#include "colors.hpp"
+#include "image.hpp"
+#include "progressbar.hpp"
 #include <iostream>
 
 const int image_width = 256;
