@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(raytracer)
 set(CMAKE_CXX_STANDARD 14)
-add_executable(raytracer main.cpp)
+include_directories(
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/src
+)
+add_executable(raytracer src/main.cpp)
 find_package(Eigen3 REQUIRED)
 if(Eigen3_FOUND)
     message("Eigen3 found")

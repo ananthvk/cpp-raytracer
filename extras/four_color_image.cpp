@@ -6,8 +6,8 @@
 int main()
 {
     const int channels = 3;
-    const int width = 100;
-    const int height = 100;
+    const int width = 1080;
+    const int height = 1080;
     unsigned char *data = new unsigned char[width * height * channels]();
     for (int i = 0; i < height; ++i)
     {
