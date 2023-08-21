@@ -1,4 +1,6 @@
+#include "colors.h"
 #include "image.h"
+#include <eigen3/Eigen/StdVector>
 #include <iostream>
 
 const int image_width = 256;
@@ -9,13 +11,12 @@ int main()
     try
     {
         image img(image_height, image_row(image_width, colorf()));
-        for (int j = 0; j < image_height; ++j)
+        for (size_t j = 0; j < image_height; ++j)
         {
-            for (int i = 0; i < image_width; ++i)
+            for (size_t i = 0; i < image_width; ++i)
             {
-                img[j][i].r = double(i) / (image_width - 1);
-                img[j][i].g = double(j) / (image_height - 1);
-                img[j][i].b = 0;
+                double t = double(j) / (image_height - 1);
+                img[j][i] = lerp(SKY_COLOR, LIGHT_SKY, t);
             }
         }
         write_to_file("test.png", img);

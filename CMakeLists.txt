@@ -5,6 +5,12 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/src
 )
+if (MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra -pedantic -O0 -ggdb3 -Wno-missing-field-initializers)
+endif()
+
 add_executable(raytracer src/main.cpp)
 find_package(Eigen3 REQUIRED)
 if(Eigen3_FOUND)

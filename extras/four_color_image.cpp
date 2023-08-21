@@ -43,6 +43,6 @@ int main()
     }
 
     stbi_write_png("test.png", width, height, channels, data, width * channels);
-    delete data;
+    delete [] data;
     return 0;
 }
