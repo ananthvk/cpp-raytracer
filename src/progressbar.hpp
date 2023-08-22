@@ -15,6 +15,9 @@ void print_progressbar(std::ostream &os, int value, int max_value, int width,
     double percent = (double)value / max_value;
     os << std::string(percent * width, fill) << head
        << std::string((1 - percent) * width, ' ') << right_end;
-    printf("( %0.2f%% )", percent * 100);
+    if (display_percent)
+    {
+        printf("( %0.2f%% )", percent * 100);
+    }
     os << std::flush;
 }

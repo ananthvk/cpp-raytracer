@@ -10,7 +10,10 @@ const int PROGRESSBAR_WIDTH = 40;
 int main()
 {
     int k = 0;
-    int max_val = image_height * image_width;
+    int max_val = image_height;
+    // TODO: Set VT terminal when compiling on windows
+    printf("%s", "\033[?25l"); // Hide the cursor to prevent flickering when
+                               // updating progressbar
     print_progressbar(std::cout, k, max_val, PROGRESSBAR_WIDTH);
     try
     {
@@ -21,11 +24,12 @@ int main()
             {
                 double t = double(j) / (image_height - 1);
                 img[j][i] = lerp(SKY_COLOR, LIGHT_SKY, t);
-                print_progressbar(std::cout, k, max_val, PROGRESSBAR_WIDTH);
-                ++k;
             }
+            ++k;
+            print_progressbar(std::cout, k, max_val, PROGRESSBAR_WIDTH);
         }
         std::cout << std::endl;
+        printf("%s", "\033[?25h"); // Show the cursor
         write_to_file("test.png", img);
     }
     catch (const std::exception &e)
