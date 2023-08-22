@@ -1,6 +1,7 @@
 #pragma once
 #include "commons.hpp"
 #include "ray.hpp"
+#include <iostream>
 #include <ostream>
 using namespace linalg::ostream_overloads;
 class RegularCamera
@@ -19,9 +20,9 @@ class RegularCamera
     // FOV angle
     double fov;
     // Width of the image (in pixels)
-    size_t image_width;
+    int image_width;
     // Height of the image (in pixels)
-    size_t image_height;
+    int image_height;
     // Aspect ratio is width / height
     double aspect_ratio;
     // Width of the virtual viewport (in metres)
@@ -35,7 +36,7 @@ class RegularCamera
 
   public:
     // Initializes the values to some sensible defaults for development
-    RegularCamera()
+    RegularCamera(int image_width, int image_height): image_width(image_width), image_height(image_height)
     {
         up = vec3(0.0, 1.0, 0.0);
         right = vec3(1.0, 0.0, 0.0);
@@ -47,18 +48,49 @@ class RegularCamera
         focal_length = 1.0;
         // 90 degrees FOV
         fov = PI / 2.0;
-        image_width = 640;
-        image_height = 360;
         // 16:9 aspect ratio
         aspect_ratio = static_cast<double>(image_width) / image_height;
         // tan (theta/2) = h/(focal length).
         viewport_height = 2.0 * std::tan(fov / 2.0) * focal_length;
         viewport_width = aspect_ratio * viewport_height;
+        delta_x = viewport_width / image_width;
+        delta_y = viewport_height / image_height;
     }
 
     // Returns a ray which passes through a pixel at the given row and column
     // Note: pixels start from (0,0), which is the top left corner
-    void get_ray(size_t row, size_t col) {}
+    Ray get_ray(int row, int col)
+    {
+        // Find the other point on this ray, one end point is the position of
+        // the camera.
+        // In PCC (Pixel coordinate system), the center is represented as
+        // image_width/2, image_height/2
+        double x0 = std::max(image_width / 2.0, 1.0);
+        double y0 = std::max(image_height / 2.0, 1.0);
+        // x and y represent the position of the pixel in cartesian system on
+        // the viewport (but as pixels)
+        double x = col - x0;
+        double y = y0 - row;
+        // Convert the pixel values to viewport system
+        double vx = x * delta_x;
+        double vy = y * delta_y;
+        vec3 vpoint = up * vy + right * vx + direction * focal_length;
+        // std::cout << row << " " << col << " " << linalg::normalize(vpoint) <<
+        // std::endl;
+        if (std::abs(vx) < 1e-3 && std::abs(vy) < 1e-3)
+        {
+            std::cout << std::endl
+                      << "x0=" << x0 << " y0=" << y0 << " x=" << x << " y=" << y
+                      << " vx=" << vx << " vy=" << vy << " row=" << row
+                      << " col=" << col << std::endl;
+            std::cout << "VPOINT:" << vpoint << std::endl;
+            std::cout << "RDIR:" << Ray(position, vpoint - position).direction()
+                      << std::endl;
+            std::cout << "RCENT:" << Ray(position, vpoint - position).point()
+                      << std::endl;
+        }
+        return Ray(position, vpoint - position);
+    }
 
     void debug_info(std::ostream &os)
     {
