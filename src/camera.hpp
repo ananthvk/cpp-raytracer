@@ -75,20 +75,6 @@ class RegularCamera
         double vx = x * delta_x;
         double vy = y * delta_y;
         vec3 vpoint = up * vy + right * vx + direction * focal_length;
-        // std::cout << row << " " << col << " " << linalg::normalize(vpoint) <<
-        // std::endl;
-        if (std::abs(vx) < 1e-3 && std::abs(vy) < 1e-3)
-        {
-            std::cout << std::endl
-                      << "x0=" << x0 << " y0=" << y0 << " x=" << x << " y=" << y
-                      << " vx=" << vx << " vy=" << vy << " row=" << row
-                      << " col=" << col << std::endl;
-            std::cout << "VPOINT:" << vpoint << std::endl;
-            std::cout << "RDIR:" << Ray(position, vpoint - position).direction()
-                      << std::endl;
-            std::cout << "RCENT:" << Ray(position, vpoint - position).point()
-                      << std::endl;
-        }
         return Ray(position, vpoint - position);
     }
 
