@@ -15,7 +15,7 @@ class Ray
         }
         else
         {
-            rdirection = d.normalized();
+            rdirection = linalg::normalize(d);
         }
     }
     // Returns a unit vector in the direction of this ray
