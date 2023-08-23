@@ -5,8 +5,8 @@
 #include "scene.hpp"
 #include <iostream>
 
-const int image_width = 640;
-const int image_height = 360;
+const int image_width = 400;
+const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
 
 int main()
