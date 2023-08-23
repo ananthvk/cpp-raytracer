@@ -1,5 +1,4 @@
 #pragma once
-#include "commons.hpp"
 #include "ray.hpp"
 #include <iostream>
 #include <ostream>

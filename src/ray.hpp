@@ -6,22 +6,12 @@ class Ray
     vec3 rorigin, rdirection;
 
   public:
-    Ray() : rorigin(), rdirection() {}
-    Ray(const vec3 &p, const vec3 &d, bool normalized = false) : rorigin(p)
-    {
-        if (normalized)
-        {
-            rdirection = d;
-        }
-        else
-        {
-            rdirection = linalg::normalize(d);
-        }
-    }
+    Ray();
+    Ray(const vec3 &p, const vec3 &d, bool normalized = false);
     // Returns a unit vector in the direction of this ray
-    vec3 direction() const { return rdirection; }
+    vec3 direction() const;
     // Returns the starting point of this ray
-    vec3 origin() const { return rorigin; }
+    vec3 origin() const;
     // Returns a point on this ray at a distance t from the origin
-    vec3 at(double t) const { return rorigin + (t * rdirection); }
+    vec3 at(double t) const;
 };

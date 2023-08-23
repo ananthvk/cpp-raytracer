@@ -16,7 +16,7 @@ struct colorf
 };
 
 // Performs linear interpolation between two colors
-colorf lerp(colorf s, colorf e, float t)
+inline colorf lerp(colorf s, colorf e, float t)
 {
     return colorf(lerp(s.r, e.r, t), lerp(s.g, e.g, t), lerp(s.b, e.b, t));
 }
@@ -25,5 +25,7 @@ colorf lerp(colorf s, colorf e, float t)
 const colorf SKY_COLOR = colorf::from_rgb(135, 206, 235);
 const colorf WHITE = colorf::from_rgb(255, 255, 255);
 const colorf LIGHT_SKY = colorf::from_rgb(188, 227, 244);
+const colorf RED = colorf(1, 0, 0);
 const colorf GREEN = colorf(0, 1, 0);
 const colorf BLUE = colorf(0, 0, 1);
+const colorf BLACK = colorf(0, 0, 0);
