@@ -1,12 +1,12 @@
 #pragma once
 #include "colors.hpp"
 #include "commons.hpp"
+#include <assert.h>
 #include <iostream>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string>
 #include <vector>
-#include <assert.h>
 
 const int CHANNELS = 3;
 const double SCALE_FACTOR = 255.99;

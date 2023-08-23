@@ -1,7 +1,7 @@
 #include "progressbar.hpp"
 
 void progressbar_display(std::ostream &os, int value, int max_value, int width,
-                       bool display_percent)
+                         bool display_percent)
 {
     char fill = '=';
     char head = '>';
