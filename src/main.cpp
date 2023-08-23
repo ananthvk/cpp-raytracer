@@ -8,6 +8,7 @@
 const int image_width = 400;
 const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
+const int SAMPLES_PER_PIXEL = 15; // NOTE: MUST BE NON-ZERO AND POSITIVE
 
 int main()
 {
@@ -26,8 +27,15 @@ int main()
         {
             for (int j = 0; j < image_width; ++j)
             {
-                img[i][j] = scene.color_at(cam.get_ray(i, j), i, j, image_width,
-                                           image_height);
+                colorf pixel_color(0, 0, 0);
+                for (int sample = 0; sample < SAMPLES_PER_PIXEL; ++sample)
+                {
+                    auto ray = cam.get_ray(i, j, true);
+                    pixel_color +=
+                        scene.color_at(ray, i, j, image_width, image_height);
+                }
+                pixel_color /= SAMPLES_PER_PIXEL;
+                img[i][j] = pixel_color;
             }
             ++k;
             progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);

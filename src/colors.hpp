@@ -13,6 +13,18 @@ struct colorf
     {
         return colorf((double)r / 255, (double)g / 255, (double)b / 255);
     }
+    colorf &operator+=(const colorf &other) {
+        r += other.r;
+        g += other.g;
+        b += other.b;
+        return *this;
+    }
+    colorf &operator/=(double d) {
+        r /= d;
+        g /= d;
+        b /= d;
+        return *this;
+    }
 };
 
 // Performs linear interpolation between two colors

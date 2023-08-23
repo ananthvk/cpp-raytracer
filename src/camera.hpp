@@ -38,6 +38,6 @@ class RegularCamera
     RegularCamera(int image_width, int image_height);
     // Returns a ray which passes through a pixel at (row, col)
     // Note: pixels start from (0,0), which is the top left corner
-    Ray get_ray(int row, int col);
+    Ray get_ray(int row, int col, bool sample = false);
     void debug_info(std::ostream &os);
 };

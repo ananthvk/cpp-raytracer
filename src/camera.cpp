@@ -24,7 +24,7 @@ RegularCamera::RegularCamera(int image_width, int image_height)
 
 // Returns a ray which passes through a pixel at (row, col)
 // Note: pixels start from (0,0), which is the top left corner
-Ray RegularCamera::get_ray(int row, int col)
+Ray RegularCamera::get_ray(int row, int col, bool sample)
 {
     // Find the other point on this ray, one end point is the position of
     // the camera.
@@ -39,6 +39,11 @@ Ray RegularCamera::get_ray(int row, int col)
     // Convert the pixel values to viewport system
     double vx = x * delta_x;
     double vy = y * delta_y;
+    if (sample)
+    {
+        vx += (uniform() - 0.5) * delta_x;
+        vy += (uniform() - 0.5) * delta_y;
+    }
     vec3 vpoint = up * vy + right * vx + direction * focal_length;
     return Ray(position, vpoint - position);
 }
