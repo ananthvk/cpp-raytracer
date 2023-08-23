@@ -2,25 +2,19 @@
 #include "colors.hpp"
 #include "image.hpp"
 #include "progressbar.hpp"
+#include "scene.hpp"
 #include <iostream>
 
 const int image_width = 640;
 const int image_height = 360;
 const int PROGRESSBAR_WIDTH = 40;
 
-colorf raytrace(int row, int col, const Ray &ray)
-{
-    auto r = ray.direction();
-    colorf result;
-    double t = double(row) / (image_height - 1);
-    return lerp(SKY_COLOR, LIGHT_SKY, t);
-}
-
 int main()
 {
     int k = 0;
     int max_val = image_height;
     RegularCamera cam(image_width, image_height);
+    Scene scene;
     cam.debug_info(std::cout);
     // TODO: Set VT terminal when compiling on windows
     progressbar_hide_cursor();
@@ -32,7 +26,8 @@ int main()
         {
             for (int j = 0; j < image_width; ++j)
             {
-                img[i][j] = raytrace(i, j, cam.get_ray(i, j));
+                img[i][j] = scene.color_at(cam.get_ray(i, j), i, j, image_width,
+                                           image_height);
             }
             ++k;
             progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);
