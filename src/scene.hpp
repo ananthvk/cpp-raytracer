@@ -14,5 +14,5 @@ class Scene
     Scene();
     // Returns the color of the ray in this scene
     colorf color_at(const Ray &ray, int row, int col, int image_width,
-                    int image_height);
+                    int image_height, int recursion_limit);
 };

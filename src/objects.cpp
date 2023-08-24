@@ -29,7 +29,7 @@ intersect_details Sphere::intersection(const intersect_params &params) const
         else
         {
             // Check if the other root lies in range
-            double root = (-b + sqd) / (2.0 * a);
+            root = (-b + sqd) / (2.0 * a);
             if (params.t_min <= root && root <= params.t_max)
             {
                 details.occured = true;

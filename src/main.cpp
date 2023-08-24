@@ -8,7 +8,8 @@
 const int image_width = 400;
 const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
-const int SAMPLES_PER_PIXEL = 15; // NOTE: MUST BE NON-ZERO AND POSITIVE
+const int SAMPLES_PER_PIXEL = 10; // NOTE: MUST BE NON-ZERO AND POSITIVE
+const int RECURSION_LIMIT = 50;
 
 int main()
 {
@@ -30,9 +31,9 @@ int main()
                 colorf pixel_color(0, 0, 0);
                 for (int sample = 0; sample < SAMPLES_PER_PIXEL; ++sample)
                 {
-                    auto ray = cam.get_ray(i, j, true);
+                    auto ray = cam.get_ray(i, j, SAMPLES_PER_PIXEL > 1);
                     pixel_color +=
-                        scene.color_at(ray, i, j, image_width, image_height);
+                        scene.color_at(ray, i, j, image_width, image_height, RECURSION_LIMIT);
                 }
                 pixel_color /= SAMPLES_PER_PIXEL;
                 img[i][j] = pixel_color;
