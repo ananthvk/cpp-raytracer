@@ -12,9 +12,7 @@ colorf Scene::color_at(const Ray &ray, int row, int col, int image_width,
 {
     if (recursion_limit == 0)
     {
-        vec3 unit_direction = ray.direction();
-        auto a = 0.5 * (unit_direction.y + 1.0);
-        return (1.0 - a) * colorf(1.0, 1.0, 1.0) + a * colorf(0.5, 0.7, 1.0);
+        return colorf(0, 0, 0);
     }
     colorf result;
     // Gets the point which is closest to the origin of the ray

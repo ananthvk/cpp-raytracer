@@ -14,9 +14,9 @@ intersect_details Sphere::intersection(const intersect_params &params) const
     double b = 2.0 * linalg::dot(ray.direction(), AC);
     double c = linalg::dot(AC, AC) - radius * radius;
     double discriminant = b * b - 4 * a * c;
-    double sqd = std::sqrt(discriminant);
     if (discriminant >= 0)
     {
+        double sqd = std::sqrt(discriminant);
         // Return the intersection point of the sphere with the ray
         double root = (-b - sqd) / (2.0 * a);
         if (params.t_min <= root && root <= params.t_max)

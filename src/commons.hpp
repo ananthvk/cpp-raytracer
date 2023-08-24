@@ -26,29 +26,12 @@ inline double uniform(double min, double max)
     return distribution(generator);
 }
 
-/*
 inline vec3 random_in_unit_sphere()
 {
     while (1)
     {
         vec3 v(uniform(-1, 1), uniform(-1, 1), uniform(-1, 1));
-        if (linalg::length(v) < 1)
-            return v;
+        if (linalg::length2(v) < 1)
+            return linalg::normalize(v);
     }
-    return vec3();
-}
-*/
-
-inline vec3 random_in_unit_sphere()
-{
-    vec3 p;
-    static std::default_random_engine generator{std::random_device{}()};
-    std::uniform_real_distribution<float> distribution(0.0, 1.0);
-    do
-    {
-        p = 2.0 * vec3(distribution(generator), distribution(generator),
-                       distribution(generator)) -
-            vec3(1, 1, 1);
-    } while (linalg::length2(p) >= 1.0);
-    return p;
 }

@@ -70,3 +70,12 @@ const colorf RED = colorf(1, 0, 0);
 const colorf GREEN = colorf(0, 1, 0);
 const colorf BLUE = colorf(0, 0, 1);
 const colorf BLACK = colorf(0, 0, 0);
+
+
+inline colorf gamma_correction(colorf color, int power)
+{
+    color.r = std::pow(color.r, 1.0 / power);
+    color.g = std::pow(color.g, 1.0 / power);
+    color.b = std::pow(color.b, 1.0 / power);
+    return color;
+}
