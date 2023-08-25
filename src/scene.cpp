@@ -7,8 +7,7 @@ Scene::Scene()
     objects.push_back(std::make_shared<Sphere>(vec3(0, -100.5, -1), 100));
 }
 
-color Scene::color_at(const Ray &ray, int row, int col, int image_width,
-                      int image_height, int recursion_limit)
+color Scene::color_at(const Ray &ray, int recursion_limit)
 {
     if (recursion_limit == 0)
     {
@@ -17,11 +16,28 @@ color Scene::color_at(const Ray &ray, int row, int col, int image_width,
         return color(0, 0, 0);
     }
     color result;
-    Intersection intersect = closest_intersect(RayParams({ray, 0, INFINITY}));
+    // 0.001 is used to intersection of the ray with the same surface
+    // from which it is cast
+    Intersection intersect =
+        closest_intersect(RayParams({ray, 0.001, INFINITY}));
     if (intersect.occured)
     {
-        auto v = 0.5 * (intersect.local_normal + vec3(1, 1, 1));
-        return color(v.x, v.y, v.z);
+        // Shade the normals
+        // auto v = 0.5 * (intersect.local_normal + vec3(1, 1, 1));
+        // return color(v.x, v.y, v.z);
+
+        // Diffuse materials
+        // In these materials, rays which are incident on the surface are
+        // randomly reflected in all directions.
+        auto random_direction = random_in_unit_sphere();
+        // If the unit vector and the ray are not on the same side, flip the
+        // vector
+        if (linalg::dot(intersect.local_normal, random_direction) < 0.0)
+        {
+            random_direction = -random_direction;
+        }
+        return 0.5 * color_at(Ray(intersect.point, random_direction),
+                              recursion_limit - 1);
     }
     else
     {

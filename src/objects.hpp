@@ -16,7 +16,8 @@ struct Intersection
     Ray ray;
     // The outward normal at the intersection point
     vec3 normal;
-    // Local normal at the intersection point, normal at the side on which the ray is present
+    // Local normal at the intersection point, normal at the side on which the
+    // ray is present
     vec3 local_normal;
     // true if the intersection occured, otherwise false
     bool occured;

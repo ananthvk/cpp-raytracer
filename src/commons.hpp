@@ -26,6 +26,7 @@ inline double uniform(double min, double max)
     return distribution(generator);
 }
 
+// This function returns a random unit vector inside a sphere
 inline vec3 random_in_unit_sphere()
 {
     while (1)

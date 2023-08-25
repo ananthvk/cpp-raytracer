@@ -8,8 +8,8 @@
 const int image_width = 400;
 const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
-const int SAMPLES_PER_PIXEL = 15; // NOTE: MUST BE NON-ZERO AND POSITIVE
-const int RECURSION_LIMIT = 10;
+const int SAMPLES_PER_PIXEL = 100; // NOTE: MUST BE NON-ZERO AND POSITIVE
+const int RECURSION_LIMIT = 50;
 
 int main()
 {
@@ -32,11 +32,11 @@ int main()
                 for (int sample = 0; sample < SAMPLES_PER_PIXEL; ++sample)
                 {
                     auto ray = cam.get_ray(i, j, SAMPLES_PER_PIXEL > 1);
-                    pixel_color +=
-                        scene.color_at(ray, i, j, image_width, image_height, RECURSION_LIMIT);
+                    pixel_color += scene.color_at(ray, RECURSION_LIMIT);
                 }
                 pixel_color /= SAMPLES_PER_PIXEL;
-                // pixel_color = gamma_correction(pixel_color, 2); // Apply gamma 2
+                // pixel_color = gamma_correction(pixel_color, 2); // Apply
+                // gamma 2
                 img[i][j] = pixel_color;
             }
             ++k;
