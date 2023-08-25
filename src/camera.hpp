@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ostream>
 using namespace linalg::ostream_overloads;
+
 class RegularCamera
 {
   private:

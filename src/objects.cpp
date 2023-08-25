@@ -1,7 +1,9 @@
 #include "objects.hpp"
 
 Sphere::Sphere() : center(vec3(0, 0, 0)), radius(0) {}
+
 Sphere::Sphere(vec3 center, double radius) : center(center), radius(radius) {}
+
 Intersection Sphere::intersect(const RayParams &params) const
 {
     Intersection details;

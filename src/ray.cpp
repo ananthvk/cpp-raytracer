@@ -13,6 +13,9 @@ Ray::Ray(const vec3 &p, const vec3 &d, bool normalized) : rorigin(p)
 }
 
 Ray::Ray() : rorigin(), rdirection() {}
+
 vec3 Ray::direction() const { return rdirection; }
+
 vec3 Ray::origin() const { return rorigin; }
+
 vec3 Ray::at(double t) const { return rorigin + (t * rdirection); }

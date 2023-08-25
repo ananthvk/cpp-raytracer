@@ -1,5 +1,6 @@
 #pragma once
 #include "commons.hpp"
+
 class Ray
 {
   private:

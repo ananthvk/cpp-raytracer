@@ -3,6 +3,7 @@
 // #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+
 void write_to_file(const std::string &filename, image img)
 {
     size_t height = img.size();

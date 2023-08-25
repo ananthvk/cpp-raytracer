@@ -4,10 +4,12 @@
 // Use vec3 instead of creating a custom struct to simplify the implementation
 // and to avoid defining custom operator overloads
 using color = vec3;
+
 static color color_from_rgb(int r, int g, int b)
 {
     return color((double)r / 255, (double)g / 255, (double)b / 255);
 }
+
 // Performs linear interpolation between two colors
 inline color lerp(color s, color e, float t)
 {
