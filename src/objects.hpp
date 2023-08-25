@@ -14,8 +14,10 @@ struct Intersection
     vec3 point;
     // The ray for which these values are calculated
     Ray ray;
-    // Always store the outward normal at the point
+    // The outward normal at the intersection point
     vec3 normal;
+    // Local normal at the intersection point, normal at the side on which the ray is present
+    vec3 local_normal;
     // true if the intersection occured, otherwise false
     bool occured;
 };
@@ -23,7 +25,7 @@ struct Intersection
 // parameters for the intersect function, ray, t_min, t_max
 struct RayParams
 {
-    // Check if this ray intersects with any object.
+    // The ray for which intersection has to be calculated
     Ray ray;
     // Minimum value of t which is valid
     double t_min;

@@ -12,25 +12,20 @@ color Scene::color_at(const Ray &ray, int row, int col, int image_width,
 {
     if (recursion_limit == 0)
     {
-        // The function has reached recursion limit, no more light can be gathered
-        // so return black
+        // The function has reached recursion limit, no more light can be
+        // gathered so return black
         return color(0, 0, 0);
     }
     color result;
     Intersection intersect = closest_intersect(RayParams({ray, 0, INFINITY}));
     if (intersect.occured)
     {
-        auto normal = intersect.normal;
-        if (linalg::dot(normal, ray.direction()) >= 0)
-        {
-            normal = -normal;
-        }
-        auto v = 0.5 * (normal + vec3(1, 1, 1));
+        auto v = 0.5 * (intersect.local_normal + vec3(1, 1, 1));
         return color(v.x, v.y, v.z);
     }
     else
     {
-        // No intersections were found, display the sky colour
+        // The ray does not intersect with any object, so return the sky color
         double t = 0.5 * (ray.direction().y + 1.0);
         return lerp(WHITE, SKY_COLOR_2, t);
     }
