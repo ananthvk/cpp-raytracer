@@ -23,12 +23,12 @@ int main()
     progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);
     try
     {
-        image img(image_height, image_row(image_width, colorf()));
+        image img(image_height, image_row(image_width, color()));
         for (int i = 0; i < image_height; ++i)
         {
             for (int j = 0; j < image_width; ++j)
             {
-                colorf pixel_color(0, 0, 0);
+                color pixel_color(0, 0, 0);
                 for (int sample = 0; sample < SAMPLES_PER_PIXEL; ++sample)
                 {
                     auto ray = cam.get_ray(i, j, SAMPLES_PER_PIXEL > 1);

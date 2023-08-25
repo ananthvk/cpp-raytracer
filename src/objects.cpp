@@ -2,12 +2,13 @@
 
 Sphere::Sphere() : center(vec3(0, 0, 0)), radius(0) {}
 Sphere::Sphere(vec3 center, double radius) : center(center), radius(radius) {}
-
-intersect_details Sphere::intersection(const intersect_params &params) const
+Intersection Sphere::intersect(const RayParams &params) const
 {
-    intersect_details details;
+    Intersection details;
+    // by default no intersection is expected not to be there.. hence defaulting
+    // to false
     details.occured = false;
-    auto ray = params.ray;
+    auto ray = params.ray; // initi
     // Solving sphere-ray quadratic equation
     vec3 AC = ray.origin() - center;
     double a = linalg::dot(ray.direction(), ray.direction());

@@ -1,81 +1,33 @@
 #pragma once
 #include "commons.hpp"
 
-// A struct to represent colors
-struct colorf
+// Use vec3 instead of creating a custom struct to simplify the implementation
+// and to avoid defining custom operator overloads
+using color = vec3;
+static color color_from_rgb(int r, int g, int b)
 {
-    double r;
-    double g;
-    double b;
-    colorf() : r(0), g(0), b(0) {}
-    colorf(double r, double g, double b) : r(r), g(g), b(b) {}
-    static colorf from_rgb(int r, int g, int b)
-    {
-        return colorf((double)r / 255, (double)g / 255, (double)b / 255);
-    }
-    colorf &operator+=(const colorf &other)
-    {
-        r += other.r;
-        g += other.g;
-        b += other.b;
-        return *this;
-    }
-    colorf &operator/=(double d)
-    {
-        r /= d;
-        g /= d;
-        b /= d;
-        return *this;
-    }
-    colorf &operator*=(double d)
-    {
-        r *= d;
-        g *= d;
-        b *= d;
-        return *this;
-    }
-};
-
-inline colorf operator*(double t, const colorf &l)
-{
-    colorf c = l;
-    c *= t;
-    return c;
+    return color((double)r / 255, (double)g / 255, (double)b / 255);
 }
-inline colorf operator/(double t, const colorf &l)
-{
-    colorf c = l;
-    c /= t;
-    return c;
-}
-inline colorf operator+(const colorf &l, const colorf &r)
-{
-    colorf c = l;
-    c += r;
-    return c;
-}
-
 // Performs linear interpolation between two colors
-inline colorf lerp(colorf s, colorf e, float t)
+inline color lerp(color s, color e, float t)
 {
-    return colorf(lerp(s.r, e.r, t), lerp(s.g, e.g, t), lerp(s.b, e.b, t));
+    return color(lerp(s.x, e.x, t), lerp(s.y, e.y, t), lerp(s.z, e.z, t));
 }
 
 // Some commonly used colors
-const colorf SKY_COLOR = colorf::from_rgb(135, 206, 235);
-const colorf SKY_COLOR_2 = colorf(0.5, 0.7, 1.0);
-const colorf WHITE = colorf::from_rgb(255, 255, 255);
-const colorf LIGHT_SKY = colorf::from_rgb(188, 227, 244);
-const colorf RED = colorf(1, 0, 0);
-const colorf GREEN = colorf(0, 1, 0);
-const colorf BLUE = colorf(0, 0, 1);
-const colorf BLACK = colorf(0, 0, 0);
+const color SKY_COLOR = color_from_rgb(135, 206, 235);
+const color SKY_COLOR_2 = color(0.5, 0.7, 1.0);
+const color WHITE = color_from_rgb(255, 255, 255);
+const color LIGHT_SKY = color_from_rgb(188, 227, 244);
+const color RED = color(1, 0, 0);
+const color GREEN = color(0, 1, 0);
+const color BLUE = color(0, 0, 1);
+const color BLACK = color(0, 0, 0);
 
-
-inline colorf gamma_correction(colorf color, int power)
+inline color gamma_correction(color color, int power)
 {
-    color.r = std::pow(color.r, 1.0 / power);
-    color.g = std::pow(color.g, 1.0 / power);
-    color.b = std::pow(color.b, 1.0 / power);
+    color.x = std::pow(color.x, 1.0 / power);
+    color.y = std::pow(color.y, 1.0 / power);
+    color.z = std::pow(color.z, 1.0 / power);
     return color;
 }

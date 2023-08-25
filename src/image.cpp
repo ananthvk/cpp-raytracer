@@ -22,11 +22,11 @@ void write_to_file(const std::string &filename, image img)
         for (size_t j = 0; j < width; ++j)
         {
             data[(i * width + j) * CHANNELS] =
-                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].r) % 256);
+                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].x) % 256);
             data[(i * width + j) * CHANNELS + 1] =
-                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].g) % 256);
+                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].y) % 256);
             data[(i * width + j) * CHANNELS + 2] =
-                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].b) % 256);
+                static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].z) % 256);
         }
     }
     stbi_write_png(filename.c_str(), width, height, CHANNELS, data,

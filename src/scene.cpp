@@ -7,40 +7,49 @@ Scene::Scene()
     objects.push_back(std::make_shared<Sphere>(vec3(0, -100.5, -1), 100));
 }
 
-colorf Scene::color_at(const Ray &ray, int row, int col, int image_width,
-                       int image_height, int recursion_limit)
+color Scene::color_at(const Ray &ray, int row, int col, int image_width,
+                      int image_height, int recursion_limit)
 {
     if (recursion_limit == 0)
     {
-        return colorf(0, 0, 0);
+        // The function has reached recursion limit, no more light can be gathered
+        // so return black
+        return color(0, 0, 0);
     }
-    colorf result;
-    // Gets the point which is closest to the origin of the ray
-    double min_intersection = INF;
-    intersect_details min_intersect;
-    for (const auto &obj : objects)
+    color result;
+    Intersection intersect = closest_intersect(RayParams({ray, 0, INFINITY}));
+    if (intersect.occured)
     {
-        auto i = obj->intersection(intersect_params({ray, 0, INFINITY}));
-        // If the current intersection is closer to the camera, choose it.
-        if (i.occured && i.parametric < min_intersection)
-        {
-            min_intersect = i;
-            min_intersection = i.parametric;
-        }
-    }
-    if (min_intersection != INF)
-    {
-        auto normal = min_intersect.normal;
+        auto normal = intersect.normal;
         if (linalg::dot(normal, ray.direction()) >= 0)
         {
-            // The ray and the normal are passing out on the same side (which
-            // means that the ray is entering from inside the sphere)
             normal = -normal;
         }
         auto v = 0.5 * (normal + vec3(1, 1, 1));
-        return colorf(v.x, v.y, v.z);
+        return color(v.x, v.y, v.z);
     }
-    // No intersections were found, display the sky colour
-    double t = 0.5 * (ray.direction().y + 1.0);
-    return lerp(WHITE, SKY_COLOR_2, t);
+    else
+    {
+        // No intersections were found, display the sky colour
+        double t = 0.5 * (ray.direction().y + 1.0);
+        return lerp(WHITE, SKY_COLOR_2, t);
+    }
+}
+
+Intersection Scene::closest_intersect(const RayParams &params)
+{
+    double intersect_distance = INF;
+    Intersection closest;
+    closest.occured = false;
+    for (const auto &obj : objects)
+    {
+        auto i = obj->intersect(params);
+        // If this intersection is closer to the ray's origin, choose it
+        if (i.occured && i.parametric < intersect_distance)
+        {
+            intersect_distance = i.parametric;
+            closest = i;
+        }
+    }
+    return closest;
 }

@@ -4,7 +4,7 @@
 #include <vector>
 
 // A struct which stores some parameters for a ray intersecting with an object
-struct intersect_details
+struct Intersection
 {
     // Point of intersection with ray.
     // If there are multiple points of intersection, the one with the least
@@ -21,7 +21,7 @@ struct intersect_details
 };
 
 // parameters for the intersect function, ray, t_min, t_max
-struct intersect_params
+struct RayParams
 {
     // Check if this ray intersects with any object.
     Ray ray;
@@ -34,8 +34,7 @@ struct intersect_params
 class Object
 {
   public:
-    virtual intersect_details
-    intersection(const intersect_params &params) const = 0;
+    virtual Intersection intersect(const RayParams &params) const = 0;
     virtual ~Object() {}
 };
 
@@ -48,5 +47,5 @@ class Sphere : public Object
   public:
     Sphere();
     Sphere(vec3 center, double radius);
-    intersect_details intersection(const intersect_params &params) const;
+    Intersection intersect(const RayParams &params) const;
 };
