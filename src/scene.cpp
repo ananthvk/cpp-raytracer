@@ -29,7 +29,8 @@ color Scene::color_at(const Ray &ray, int recursion_limit)
         // Diffuse materials
         // In these materials, rays which are incident on the surface are
         // randomly reflected in all directions.
-        auto random_direction = random_in_unit_sphere();
+        auto random_direction =
+            intersect.local_normal + random_in_unit_sphere();
         // If the unit vector and the ray are not on the same side, flip the
         // vector
         if (linalg::dot(intersect.local_normal, random_direction) < 0.0)

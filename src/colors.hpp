@@ -28,8 +28,29 @@ const color BLACK = color(0, 0, 0);
 
 inline color gamma_correction(color color, int power)
 {
-    color.x = std::pow(color.x, 1.0 / power);
-    color.y = std::pow(color.y, 1.0 / power);
-    color.z = std::pow(color.z, 1.0 / power);
+    if (power == 1)
+    {
+        // no gamma correction
+    }
+    else if (power == 2)
+    {
+        // gamma 2 - use sqrt
+        color.x = std::sqrt(color.x);
+        color.y = std::sqrt(color.y);
+        color.z = std::sqrt(color.z);
+    }
+    else if (power == 3)
+    {
+        // gamma 3 - use cbrt
+        color.x = std::cbrt(color.x);
+        color.y = std::cbrt(color.y);
+        color.z = std::cbrt(color.z);
+    }
+    else
+    {
+        color.x = std::pow(color.x, 1.0 / power);
+        color.y = std::pow(color.y, 1.0 / power);
+        color.z = std::pow(color.z, 1.0 / power);
+    }
     return color;
 }
