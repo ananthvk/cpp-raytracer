@@ -15,8 +15,8 @@ struct MaterialInteraction
 class Material
 {
   public:
-    virtual MaterialInteraction
-    interact(const RayParams &params, const Intersection &intersect) const = 0;
+    virtual MaterialInteraction interact(const RayParams &params,
+                                         const Intersection &intersect) const = 0;
 
     virtual ~Material() {}
 };

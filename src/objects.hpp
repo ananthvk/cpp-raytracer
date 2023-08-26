@@ -6,6 +6,7 @@ class Object
 {
   public:
     virtual Intersection intersect(const RayParams &params) const = 0;
+
     virtual ~Object() {}
 };
 
