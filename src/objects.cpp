@@ -42,6 +42,7 @@ Intersection Sphere::intersect(const RayParams &params) const
     details.point = ray.at(root);
     details.normal = (details.point - center) / radius;
     details.material_id = material_id;
+    details.ray = params.ray;
     if (linalg::dot(details.normal, ray.direction()) > 0.0)
     {
         // The ray is inside the sphere

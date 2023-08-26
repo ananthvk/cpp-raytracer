@@ -106,3 +106,6 @@ inline bool is_zero_vector(const vec3 &v)
 {
     return fabs(v.x) < ZERO_EPSILON && fabs(v.y) < ZERO_EPSILON && fabs(v.z) < ZERO_EPSILON;
 }
+
+// Returns the ray after reflection
+inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v, n) * n; }

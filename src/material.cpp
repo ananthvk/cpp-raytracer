@@ -27,3 +27,19 @@ MaterialInteraction LambertianDiffuse::interact(const RayParams &params,
     interaction.ray = Ray(intersect.point, scatter_direction);
     return interaction;
 }
+
+Metal::Metal() : albedo(color(0.5, 0.5, 0.5)) {}
+
+Metal::Metal(const color &albedo) : albedo(albedo) {}
+
+MaterialInteraction Metal::interact(const RayParams &params, const Intersection &intersect) const
+{
+    // Metal surfaces, these surfaces do not refelect the ray randomly
+    // instead they are refelcted with the same angle of incidence
+    MaterialInteraction interaction;
+    auto reflect_direction = reflect(intersect.ray.direction(), intersect.local_normal);
+    interaction.additional_rays = true;
+    interaction.attenuation = albedo;
+    interaction.ray = Ray(intersect.point, reflect_direction);
+    return interaction;
+}

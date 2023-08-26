@@ -52,3 +52,19 @@ class NormalShader : public Material
         return interaction;
     }
 };
+
+class Metal : public Material
+{
+  public:
+    // By default the color of the material is gray
+    Metal();
+
+    Metal(const color &albedo);
+
+    MaterialInteraction interact(const RayParams &params,
+                                 const Intersection &intersect) const override;
+
+  private:
+    // Albedo or color of this material
+    color albedo;
+};

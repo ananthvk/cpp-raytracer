@@ -3,10 +3,22 @@
 Scene::Scene()
 {
     // A test scene
-    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.0, 0.0, 0.5)));
-    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.4, 0.4, 0.0)));
-    objects.push_back(std::make_shared<Sphere>(vec3(0, 0, -1), 0.5, 0));
-    objects.push_back(std::make_shared<Sphere>(vec3(0, -100.5, -1), 100, 1));
+    // ground material
+    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.8, 0.8, 0.0)));
+    // diffuse sphere in the center
+    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.7, 0.3, 0.3)));
+    // silver metal sphere on the left
+    materials.push_back(std::make_shared<Metal>(color(0.8, 0.8, 0.8)));
+    // golden metal sphere on the right
+    materials.push_back(std::make_shared<Metal>(color(0.8, 0.6, 0.2)));
+    // The ground
+    objects.push_back(std::make_shared<Sphere>(vec3(0, -100.5, -1), 100, 0));
+    // The center diffuse sphere
+    objects.push_back(std::make_shared<Sphere>(vec3(0, 0, -1.0), 0.5, 1));
+    // left sphere
+    objects.push_back(std::make_shared<Sphere>(vec3(-1, 0, -1), 0.5, 2));
+    // right sphere
+    objects.push_back(std::make_shared<Sphere>(vec3(1, 0, -1), 0.5, 3));
 }
 
 color Scene::color_at(const Ray &ray, int recursion_limit)

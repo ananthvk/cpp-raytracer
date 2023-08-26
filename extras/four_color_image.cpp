@@ -1,8 +1,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "../include/stb_image.h"
+#include "../include/stb_image_write.h"
 #include <iostream>
+
 int main()
 {
     const int channels = 3;
@@ -43,6 +44,6 @@ int main()
     }
 
     stbi_write_png("test.png", width, height, channels, data, width * channels);
-    delete [] data;
+    delete[] data;
     return 0;
 }
