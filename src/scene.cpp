@@ -17,7 +17,6 @@ color Scene::color_at(const Ray &ray, int recursion_limit)
         // gathered so return black
         return color(0, 0, 0);
     }
-    color result;
     // 0.001 is used to prevent intersection of the ray with the same surface
     // from which it is cast
     auto params = RayParams({ray, 0.001, INFINITY});

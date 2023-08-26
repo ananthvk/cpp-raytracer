@@ -3,6 +3,7 @@
 #include <limits>
 #include <random>
 constexpr double PI = 3.141592653589793238463;
+constexpr double ZERO_EPSILON = 0.0;
 
 // Function to perform linear interpolation
 inline float lerp(float s, float e, float t) { return (1 - t) * s + t * e; }
@@ -98,4 +99,10 @@ inline vec3 random_in_unit_sphere()
         if (linalg::length2(v) < 1)
             return linalg::normalize(v);
     }
+}
+
+// Returns true if the vector is a zero vector
+inline bool is_zero_vector(const vec3 &v)
+{
+    return fabs(v.x) < ZERO_EPSILON && fabs(v.y) < ZERO_EPSILON && fabs(v.z) < ZERO_EPSILON;
 }
