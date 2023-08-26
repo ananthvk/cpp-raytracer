@@ -3,8 +3,8 @@
 Scene::Scene()
 {
     // A test scene
-    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.0, 0.5, 0.0)));
     materials.push_back(std::make_shared<LambertianDiffuse>(color(0.0, 0.0, 0.5)));
+    materials.push_back(std::make_shared<LambertianDiffuse>(color(0.4, 0.4, 0.0)));
     objects.push_back(std::make_shared<Sphere>(vec3(0, 0, -1), 0.5, 0));
     objects.push_back(std::make_shared<Sphere>(vec3(0, -100.5, -1), 100, 1));
 }
@@ -27,7 +27,8 @@ color Scene::color_at(const Ray &ray, int recursion_limit)
         auto interaction = materials[intersect.material_id]->interact(params, intersect);
         if (interaction.additional_rays)
         {
-            return interaction.attenuation * color_at(interaction.ray, recursion_limit - 1);
+            return linalg::cmul(interaction.attenuation,
+                                color_at(interaction.ray, recursion_limit - 1));
         }
         return interaction.attenuation;
     }

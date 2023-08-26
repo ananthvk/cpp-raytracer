@@ -37,6 +37,6 @@
 **/*.out
 **/*.ppm
 **/*.jpg
-**/*.png
+src/*.png
 .cache/
 build/
