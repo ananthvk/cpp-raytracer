@@ -38,5 +38,5 @@
 **/*.ppm
 **/*.jpg
 **/*.png
-
+.cache/
 build/
