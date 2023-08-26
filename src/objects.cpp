@@ -1,8 +1,11 @@
 #include "objects.hpp"
 
-Sphere::Sphere() : center(vec3(0, 0, 0)), radius(0) {}
+Sphere::Sphere() : center(vec3(0, 0, 0)), radius(0), material_id(0) {}
 
-Sphere::Sphere(vec3 center, double radius) : center(center), radius(radius) {}
+Sphere::Sphere(vec3 center, double radius, int material_id)
+    : center(center), radius(radius), material_id(material_id)
+{
+}
 
 Intersection Sphere::intersect(const RayParams &params) const
 {
@@ -38,6 +41,7 @@ Intersection Sphere::intersect(const RayParams &params) const
     details.parametric = root;
     details.point = ray.at(root);
     details.normal = (details.point - center) / radius;
+    details.material_id = material_id;
     if (linalg::dot(details.normal, ray.direction()) > 0.0)
     {
         // The ray is inside the sphere
@@ -50,3 +54,5 @@ Intersection Sphere::intersect(const RayParams &params) const
     }
     return details;
 }
+
+void Sphere::set_material_id(int id) { material_id = id; }

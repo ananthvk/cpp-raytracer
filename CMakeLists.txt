@@ -11,4 +11,4 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -O0 -ggdb3 -Wno-missing-field-initializers -Wno-unused-parameter)
 endif()
 
-add_executable(raytracer src/main.cpp src/camera.cpp src/image.cpp src/progressbar.cpp src/ray.cpp src/scene.cpp src/objects.cpp)
+add_executable(raytracer src/main.cpp src/camera.cpp src/image.cpp src/progressbar.cpp src/scene.cpp src/objects.cpp src/material.cpp)

@@ -48,6 +48,7 @@ inline color gamma_correction(color color, int power)
     }
     else
     {
+        // gamma n
         color.x = std::pow(color.x, 1.0 / power);
         color.y = std::pow(color.y, 1.0 / power);
         color.z = std::pow(color.z, 1.0 / power);

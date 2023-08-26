@@ -1,5 +1,5 @@
 #pragma once
-#include "ray.hpp"
+#include "commons.hpp"
 #include <iostream>
 #include <ostream>
 using namespace linalg::ostream_overloads;

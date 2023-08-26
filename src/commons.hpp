@@ -10,6 +10,69 @@ inline float lerp(float s, float e, float t) { return (1 - t) * s + t * e; }
 using vec3 = linalg::vec<double, 3>;
 const double INF = std::numeric_limits<double>::infinity();
 
+class Ray
+{
+  private:
+    vec3 rorigin, rdirection;
+
+  public:
+    Ray() : rorigin(), rdirection() {}
+
+    Ray(const vec3 &p, const vec3 &d, bool normalized = false) : rorigin(p)
+    {
+        if (normalized)
+        {
+            rdirection = d;
+        }
+        else
+        {
+            rdirection = linalg::normalize(d);
+        }
+    }
+
+    // Returns a unit vector in the direction of this ray
+    vec3 direction() const { return rdirection; }
+
+    // Returns the starting point of this ray
+    vec3 origin() const { return rorigin; }
+
+    // Returns a point on this ray at a distance t from the origin of the ray
+    vec3 at(double t) const { return rorigin + (t * rdirection); }
+};
+
+// A struct which stores some parameters for a ray intersecting with an object
+struct Intersection
+{
+    // Point of intersection with ray.
+    // If there are multiple points of intersection, the one with the least
+    // distance from the origin of the ray is stored
+    double parametric;
+    // Point in cartesian system
+    vec3 point;
+    // The ray for which these values are calculated
+    Ray ray;
+    // The outward normal at the intersection point
+    vec3 normal;
+    // Local normal at the intersection point, normal at the side on which the
+    // ray is present
+    vec3 local_normal;
+    // true if the intersection occured, otherwise false
+    bool occured;
+    // id(index) of the material at the intersection point
+    int material_id;
+};
+
+// parameters for the intersect function, ray, t_min, t_max
+struct RayParams
+{
+    // The ray for which intersection has to be calculated
+    Ray ray;
+    // Minimum value of t which is valid
+    double t_min;
+    // Maximum value of t which is valid
+    double t_max;
+};
+
 // Gets a random number between 0 and 1
 inline double uniform()
 {
