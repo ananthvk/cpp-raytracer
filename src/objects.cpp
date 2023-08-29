@@ -46,11 +46,13 @@ Intersection Sphere::intersect(const RayParams &params) const
     if (linalg::dot(details.normal, ray.direction()) > 0.0)
     {
         // The ray is inside the sphere
+        details.front = false;
         details.local_normal = -details.normal;
     }
     else
     {
         // The ray is outside the sphere
+        details.front = true;
         details.local_normal = details.normal;
     }
     return details;

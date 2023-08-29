@@ -28,9 +28,12 @@ MaterialInteraction LambertianDiffuse::interact(const RayParams &params,
     return interaction;
 }
 
-Metal::Metal() : albedo(color(0.5, 0.5, 0.5)) {}
+Metal::Metal() : albedo(color(0.5, 0.5, 0.5)), fuzziness(0.0) {}
 
-Metal::Metal(const color &albedo) : albedo(albedo) {}
+Metal::Metal(const color &albedo, double fuzziness)
+    : albedo(albedo), fuzziness(fuzziness < 1 ? fuzziness : 1)
+{
+}
 
 MaterialInteraction Metal::interact(const RayParams &params, const Intersection &intersect) const
 {
@@ -38,8 +41,47 @@ MaterialInteraction Metal::interact(const RayParams &params, const Intersection 
     // instead they are refelcted with the same angle of incidence
     MaterialInteraction interaction;
     auto reflect_direction = reflect(intersect.ray.direction(), intersect.local_normal);
-    interaction.additional_rays = true;
+    auto scattered = linalg::normalize(reflect_direction + fuzziness * random_in_unit_sphere());
+    if (linalg::dot(scattered, intersect.local_normal) < 0)
+    {
+        interaction.additional_rays = false;
+        interaction.attenuation = BLACK;
+    }
+    else
+    {
+        interaction.additional_rays = true;
+        interaction.ray = Ray(intersect.point, scattered);
+        interaction.attenuation = albedo;
+    }
+    return interaction;
+}
+
+Glass::Glass() : albedo(WHITE), r_index(1.5) {}
+
+Glass::Glass(const color &albedo, double r_index) : albedo(albedo), r_index(r_index) {}
+
+MaterialInteraction Glass::interact(const RayParams &params, const Intersection &intersect) const
+{
+    MaterialInteraction interaction;
     interaction.attenuation = albedo;
-    interaction.ray = Ray(intersect.point, reflect_direction);
+    interaction.additional_rays = true;
+
+    double cos_theta = fmin(linalg::dot(-params.ray.direction(), intersect.local_normal), 1.0);
+    double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    // Calculate the refractive index
+    double ri = intersect.front ? (1.0 / r_index) : r_index;
+    if (ri * sin_theta > 1.0)
+    {
+        // There is no solution to Snell's law, so only reflection is possible
+        auto reflected = reflect(params.ray.direction(), intersect.local_normal);
+        interaction.ray = Ray(intersect.point, reflected);
+    }
+    else
+    {
+        // The ray gets refracted
+        auto refracted = refract(params.ray.direction(), intersect.local_normal, ri);
+        interaction.ray = Ray(intersect.point, refracted);
+    }
+
     return interaction;
 }

@@ -8,7 +8,7 @@
 const int image_width = 400;
 const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
-const int SAMPLES_PER_PIXEL = 10; // NOTE: MUST BE NON-ZERO AND POSITIVE
+const int SAMPLES_PER_PIXEL = 100; // NOTE: MUST BE NON-ZERO AND POSITIVE
 const int RECURSION_LIMIT = 10;
 
 int main()

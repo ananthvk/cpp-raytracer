@@ -61,6 +61,8 @@ struct Intersection
     bool occured;
     // id(index) of the material at the intersection point
     int material_id;
+    // true if the ray is outside the surface
+    bool front;
 };
 
 // parameters for the intersect function, ray, t_min, t_max
@@ -109,3 +111,13 @@ inline bool is_zero_vector(const vec3 &v)
 
 // Returns the ray after reflection
 inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v, n) * n; }
+
+// Returns the refracted ray, uses vectors to denote normals and the rays
+// For more information https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
+inline vec3 refract(const vec3 &incident, const vec3 &normal, double rel_i)
+{
+    auto cos_theta = std::min(linalg::dot(-incident, normal), 1.0);
+    vec3 refracted_perpendicular = rel_i * (incident + cos_theta * normal);
+    vec3 refracted_parallel = -sqrt(fabs(1.0 - linalg::length2(refracted_perpendicular))) * normal;
+    return refracted_perpendicular + refracted_parallel;
+}

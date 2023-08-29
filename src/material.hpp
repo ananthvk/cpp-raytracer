@@ -59,7 +59,7 @@ class Metal : public Material
     // By default the color of the material is gray
     Metal();
 
-    Metal(const color &albedo);
+    Metal(const color &albedo, double fuzziness = 0.0);
 
     MaterialInteraction interact(const RayParams &params,
                                  const Intersection &intersect) const override;
@@ -67,4 +67,19 @@ class Metal : public Material
   private:
     // Albedo or color of this material
     color albedo;
+    double fuzziness;
+};
+
+class Glass : public Material
+{
+  public:
+    Glass();
+    Glass(const color &albedo, double r_index = 1.5);
+    MaterialInteraction interact(const RayParams &params,
+                                 const Intersection &intersect) const override;
+
+  private:
+    // Albedo or color of this material
+    color albedo;
+    double r_index;
 };

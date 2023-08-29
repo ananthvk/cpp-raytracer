@@ -6,11 +6,12 @@ Scene::Scene()
     // ground material
     materials.push_back(new LambertianDiffuse(color(0.8, 0.8, 0.0)));
     // diffuse sphere in the center
-    materials.push_back(new LambertianDiffuse(color(0.7, 0.3, 0.3)));
-    // silver metal sphere on the left
-    materials.push_back(new Metal(color(0.8, 0.8, 0.8)));
+
+    materials.push_back(new LambertianDiffuse(color(0.1, 0.2, 0.5)));
+    materials.push_back(new Glass(WHITE, 1.5));
+
     // golden metal sphere on the right
-    materials.push_back(new Metal(color(0.8, 0.6, 0.2)));
+    materials.push_back(new Metal(color(0.8, 0.6, 0.2), 0.0));
     // The ground
     objects.push_back(new Sphere(vec3(0, -100.5, -1), 100, 0));
     // The center diffuse sphere
