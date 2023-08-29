@@ -3,6 +3,7 @@
 RegularCamera::RegularCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
+    /*
     up = vec3(0.0, 1.0, 0.0);
     right = vec3(1.0, 0.0, 0.0);
     // The camera faces the negative z axis
@@ -10,7 +11,16 @@ RegularCamera::RegularCamera(int image_width, int image_height)
     // The camera is at the origin
     position = vec3(0.0, 0.0, 0.0);
     // focal length of 1m
-    focal_length = 1.0;
+    */
+    position = vec3(-2, 2, 1);
+    up = vec3(0, 1, 0);
+    vec3 lookat = vec3(0, 0, -1);
+    direction = linalg::normalize(position - lookat);
+    up = linalg::normalize(linalg::cross(up, direction));
+    up = linalg::normalize(linalg::cross(direction, up));
+    right = linalg::cross(direction, up);
+
+    focal_length = linalg::length(lookat - position);
     // 90 degrees FOV
     fov = PI / 2.0;
     // 16:9 aspect ratio
@@ -24,7 +34,7 @@ RegularCamera::RegularCamera(int image_width, int image_height)
 
 // Returns a ray which passes through a pixel at (row, col)
 // Note: pixels start from (0,0), which is the top left corner
-Ray RegularCamera::get_ray(int row, int col, bool sample)
+Ray RegularCamera::get_ray(int row, int col, bool sample) const
 {
     // Find the other point on this ray, one end point is the position of
     // the camera.
@@ -48,7 +58,7 @@ Ray RegularCamera::get_ray(int row, int col, bool sample)
     return Ray(position, vpoint - position);
 }
 
-void RegularCamera::debug_info(std::ostream &os)
+void RegularCamera::debug_info(std::ostream &os) const
 {
     os << "Camera debug info" << std::endl;
     os << "******************" << std::endl;
