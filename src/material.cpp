@@ -70,7 +70,8 @@ MaterialInteraction Glass::interact(const RayParams &params, const Intersection 
     double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
     // Calculate the refractive index
     double ri = intersect.front ? (1.0 / r_index) : r_index;
-    if (ri * sin_theta > 1.0)
+    // Also apply schlick approximation
+    if (ri * sin_theta > 1.0 || schlick_reflects(cos_theta, ri))
     {
         // There is no solution to Snell's law, so only reflection is possible
         auto reflected = reflect(params.ray.direction(), intersect.local_normal);

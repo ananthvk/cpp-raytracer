@@ -53,7 +53,7 @@ struct Intersection
     // The ray for which these values are calculated
     Ray ray;
     // The outward normal at the intersection point
-    vec3 normal;
+    vec3 o_normal;
     // Local normal at the intersection point, normal at the side on which the
     // ray is present
     vec3 local_normal;
@@ -113,11 +113,28 @@ inline bool is_zero_vector(const vec3 &v)
 inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v, n) * n; }
 
 // Returns the refracted ray, uses vectors to denote normals and the rays
-// For more information https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
+// For more information
+// https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
 inline vec3 refract(const vec3 &incident, const vec3 &normal, double rel_i)
 {
     auto cos_theta = std::min(linalg::dot(-incident, normal), 1.0);
     vec3 refracted_perpendicular = rel_i * (incident + cos_theta * normal);
     vec3 refracted_parallel = -sqrt(fabs(1.0 - linalg::length2(refracted_perpendicular))) * normal;
     return refracted_perpendicular + refracted_parallel;
+}
+
+inline double schlick(double cosine, double ref_idx)
+{
+    // https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/schlickapproximation
+    // The reflectivity of glass changes with the angle in which it is viewed. For example water
+    // appears like a mirror when viewed in a particular angle. This is an approximation of the real
+    // phenomenon.
+    auto r0 = (1 - ref_idx) / (1 + ref_idx);
+    r0 = r0 * r0;
+    return r0 + (1 - r0) * pow((1 - cosine), 5);
+}
+
+inline bool schlick_reflects(double cosine, double refractive_index)
+{
+    return schlick(cosine, refractive_index) > uniform();
 }

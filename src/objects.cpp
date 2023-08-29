@@ -40,20 +40,20 @@ Intersection Sphere::intersect(const RayParams &params) const
     details.occured = true;
     details.parametric = root;
     details.point = ray.at(root);
-    details.normal = (details.point - center) / radius;
+    details.o_normal = (details.point - center) / radius;
     details.material_id = material_id;
     details.ray = params.ray;
-    if (linalg::dot(details.normal, ray.direction()) > 0.0)
+    if (linalg::dot(details.o_normal, ray.direction()) > 0.0)
     {
         // The ray is inside the sphere
         details.front = false;
-        details.local_normal = -details.normal;
+        details.local_normal = -details.o_normal;
     }
     else
     {
         // The ray is outside the sphere
         details.front = true;
-        details.local_normal = details.normal;
+        details.local_normal = details.o_normal;
     }
     return details;
 }

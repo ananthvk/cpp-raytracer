@@ -2,6 +2,7 @@
 
 Scene::Scene()
 {
+    /*
     // A test scene
     // ground material
     materials.push_back(new LambertianDiffuse(color(0.8, 0.8, 0.0)));
@@ -17,9 +18,20 @@ Scene::Scene()
     // The center diffuse sphere
     objects.push_back(new Sphere(vec3(0, 0, -1.0), 0.5, 1));
     // left sphere
-    objects.push_back(new Sphere(vec3(-1, 0, -1), 0.5, 2));
+    objects.push_back(new Sphere(vec3(-1, 0, -1), -0.4, 2));
     // right sphere
     objects.push_back(new Sphere(vec3(1, 0, -1), 0.5, 3));
+    */
+    materials.push_back(new LambertianDiffuse(color(0.8, 0.8, 0.0))); // ground
+    materials.push_back(new LambertianDiffuse(color(0.1, 0.2, 0.5))); // center
+    materials.push_back(new Glass(WHITE, 1.5));                       // left
+    materials.push_back(new Metal(color(0.8, 0.6, 0.2), 0.0));        // right
+
+    objects.push_back(new Sphere(vec3(0.0, -100.5, -1.0), 100.0, 0));
+    objects.push_back(new Sphere(vec3(0.0, 0.0, -1.0), 0.5, 1));
+    objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), 0.5, 2));
+    objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), -0.4, 2));
+    objects.push_back(new Sphere(vec3(1.0, 0.0, -1.0), 0.5, 3));
 }
 
 color Scene::color_at(const Ray &ray, int recursion_limit)
