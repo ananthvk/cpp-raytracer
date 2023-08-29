@@ -15,7 +15,7 @@ RegularCamera::RegularCamera(int image_width, int image_height)
     position = vec3(-2, 2, 1);
     up = vec3(0, 1, 0);
     vec3 lookat = vec3(0, 0, -1);
-    direction = linalg::normalize(position - lookat);
+    direction = linalg::normalize(lookat - position);
     up = linalg::normalize(linalg::cross(up, direction));
     up = linalg::normalize(linalg::cross(direction, up));
     right = linalg::cross(direction, up);
