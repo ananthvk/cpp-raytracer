@@ -3,7 +3,6 @@
 RegularCamera::RegularCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
-    /*
     up = vec3(0.0, 1.0, 0.0);
     right = vec3(1.0, 0.0, 0.0);
     // The camera faces the negative z axis
@@ -11,18 +10,9 @@ RegularCamera::RegularCamera(int image_width, int image_height)
     // The camera is at the origin
     position = vec3(0.0, 0.0, 0.0);
     // focal length of 1m
-    */
-    position = vec3(-2, 2, 1);
-    up = vec3(0, 1, 0);
-    vec3 lookat = vec3(0, 0, -1);
-    direction = linalg::normalize(lookat - position);
-    up = linalg::normalize(linalg::cross(up, direction));
-    up = linalg::normalize(linalg::cross(direction, up));
-    right = linalg::cross(direction, up);
-
-    focal_length = linalg::length(lookat - position);
+    focal_length = 1.0;
     // 90 degrees FOV
-    fov = PI / 2.0;
+    fov = (PI / 180.0) * 90;
     // 16:9 aspect ratio
     aspect_ratio = static_cast<double>(image_width) / image_height;
     // tan (theta/2) = h/(focal length).
