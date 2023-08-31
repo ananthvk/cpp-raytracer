@@ -2,6 +2,7 @@
 #include "colors.hpp"
 #include "image.hpp"
 #include "progressbar.hpp"
+#include "frombook.hpp"
 #include "scene.hpp"
 #include <iostream>
 

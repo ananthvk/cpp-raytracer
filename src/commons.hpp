@@ -87,6 +87,15 @@ inline double uniform()
     return distribution(gen);
 }
 
+inline double uniform_minus_one_to_one()
+{
+    static std::random_device device;
+    static std::mt19937 gen(device());
+    static std::uniform_real_distribution<double> distribution(-1, 1);
+
+    return distribution(gen);
+}
+
 inline double uniform(double min, double max)
 {
     static std::uniform_real_distribution<double> distribution(min, max);
@@ -99,9 +108,19 @@ inline vec3 random_in_unit_sphere()
 {
     while (1)
     {
-        vec3 v(uniform(-1, 1), uniform(-1, 1), uniform(-1, 1));
+        vec3 v(uniform_minus_one_to_one(), uniform_minus_one_to_one(), uniform_minus_one_to_one());
         if (linalg::length2(v) < 1)
             return linalg::normalize(v);
+    }
+}
+
+inline vec3 random_in_unit_disk()
+{
+    while (1)
+    {
+        vec3 v(uniform_minus_one_to_one(), uniform_minus_one_to_one(), 0);
+        if (linalg::length2(v) < 1)
+            return v;
     }
 }
 
@@ -146,3 +165,5 @@ inline bool almost_equal(const vec3 &v1, const vec3 &v2)
     return fabs(v1.x - v2.x) < EPSILON && fabs(v1.y - v2.y) < EPSILON &&
            fabs(v1.z - v2.z) < EPSILON;
 }
+
+inline double radians(double degrees) { return (PI / 180.0) * degrees; }

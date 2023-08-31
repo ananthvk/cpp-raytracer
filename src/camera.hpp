@@ -16,6 +16,7 @@ class Camera
 class MovableCamera : public Camera
 {
   private:
+    // Note unless specified, all angle values are in radians
     // A vector which represents the alignment of the camera
     vec3 up;
     // A vector which points to the right of the camera
@@ -42,6 +43,13 @@ class MovableCamera : public Camera
     double delta_x;
     // It is the vertical spacing between two adjacent pixels in the viewport
     double delta_y;
+    // The angle through which the rays are spread out from the origin of the camera
+    double defocus_angle;
+    // The radius of disk from which rays are cast to the screen
+    double defocus_radius;
+
+    // Returns a random origin for a new ray on the defocus disk
+    vec3 get_defocused_origin() const;
 
   public:
     MovableCamera(int image_width, int image_height);

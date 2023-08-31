@@ -3,12 +3,14 @@
 MovableCamera::MovableCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
-    fov = (PI / 180.0) * 90;
+    fov = radians(20);
     position = vec3(-2, 2, 1);
     vec3 lookat = vec3(0, 0, -1);
     vec3 camera_up = vec3(0, 1, 0);
 
-    focal_length = 10;
+    focal_length = 3.4;
+    defocus_angle = radians(10);
+    defocus_radius = focal_length * std::tan(defocus_angle / 2.0);
     // Use the Gram-Schimdt process to find the orthonormal basis
     // https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
 
@@ -50,10 +52,21 @@ Ray MovableCamera::get_ray(int row, int col, bool sample) const
     }
     // Translate the viewport, keeping the camera's position as origin.
     // The bug resulted in not shifting the origin of the viewport.
-    vec3 vpoint = position + (up * vy) + (right * vx) + (direction * focal_length);
-    // Parity with the book - does not give the same answer though
-    vpoint = vpoint + 0.5 * ((delta_x * right) + (up * delta_y));
-    return Ray(position, vpoint - position);
+    auto pixel_sample = position + (up * vy) + (right * vx) + (direction * focal_length);
+    auto ray_origin = (defocus_angle <= 0) ? position : get_defocused_origin();
+    auto ray_direction = pixel_sample - ray_origin;
+
+    return Ray(ray_origin, ray_direction);
+}
+
+// Get a random origin for a new ray on the plane of the actual origin of the camera
+// This acts as thin lens approximation
+vec3 MovableCamera::get_defocused_origin() const
+{
+    // auto rnd = random_in_unit_disk();
+    // return defocus_radius * ((rnd[0] * right) + (rnd[1] * up));
+    auto p = random_in_unit_disk();
+    return position + (p[0] * up * defocus_radius) + (p[1] * right * defocus_radius);
 }
 
 void MovableCamera::debug_info(std::ostream &os) const
@@ -73,5 +86,9 @@ void MovableCamera::debug_info(std::ostream &os) const
     os << "Viewport height: " << viewport_height << std::endl;
     os << "Delta x:" << delta_x << std::endl;
     os << "Delta y:" << delta_y << std::endl;
+    os << "Defocus angle:" << defocus_angle << std::endl;
+    os << "Defocus radius:" << defocus_radius << std::endl;
+    os << "Defocus u:" << defocus_radius * right << std::endl;
+    os << "Defocus v:" << defocus_radius * up << std::endl;
     os << "******************" << std::endl;
 }
