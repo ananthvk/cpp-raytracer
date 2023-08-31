@@ -3,7 +3,8 @@
 #include <limits>
 #include <random>
 constexpr double PI = 3.141592653589793238463;
-constexpr double ZERO_EPSILON = 0.0;
+constexpr double ZERO_EPSILON = 1e-6;
+constexpr double EPSILON = 1e-6;
 
 // Function to perform linear interpolation
 inline float lerp(float s, float e, float t) { return (1 - t) * s + t * e; }
@@ -137,4 +138,10 @@ inline double schlick(double cosine, double ref_idx)
 inline bool schlick_reflects(double cosine, double refractive_index)
 {
     return schlick(cosine, refractive_index) > uniform();
+}
+
+inline bool almost_equal(const vec3 &v1, const vec3 &v2)
+{
+    return fabs(v1.x - v2.x) < EPSILON && fabs(v1.y - v2.y) < EPSILON &&
+           fabs(v1.z - v2.z) < EPSILON;
 }

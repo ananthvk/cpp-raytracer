@@ -13,45 +13,6 @@ class Camera
     virtual ~Camera() {}
 };
 
-class RegularCamera : public Camera
-{
-  private:
-    // A vector which represents the alignment of the camera
-    vec3 up;
-    // A vector which points to the right of the camera
-    vec3 right;
-    // The direction the camera is looking at
-    vec3 direction;
-    // Position of the camera
-    vec3 position;
-    // Distance between the camera and the viewport screen
-    double focal_length;
-    // FOV angle
-    double fov;
-    // Width of the image (in pixels)
-    int image_width;
-    // Height of the image (in pixels)
-    int image_height;
-    // Aspect ratio is width / height
-    double aspect_ratio;
-    // Width of the virtual viewport (in metres)
-    double viewport_width;
-    // Height of the virtual viewport (in metres)
-    double viewport_height;
-    // It is the horizontal spacing between two adjacent pixels in the viewport
-    double delta_x;
-    // It is the vertical spacing between two adjacent pixels in the viewport
-    double delta_y;
-
-  public:
-    // Initializes the values to some sensible defaults for development
-    RegularCamera(int image_width, int image_height);
-    // Returns a ray which passes through a pixel at (row, col)
-    // Note: pixels start from (0,0), which is the top left corner
-    Ray get_ray(int row, int col, bool sample = false) const override;
-    void debug_info(std::ostream &os) const override;
-};
-
 class MovableCamera : public Camera
 {
   private:
@@ -118,7 +79,8 @@ class ReferenceCamera : public Camera
         {
             pixel_sample += pixel_sample_square();
         }
-
+        std::cout << "Reference: Getting pixel at " << j << " " << i << std::endl;
+        std::cout << "pixel: " << pixel_sample << std::endl;
         auto ray_origin = center;
         auto ray_direction = pixel_sample - ray_origin;
 
@@ -175,7 +137,17 @@ class ReferenceCamera : public Camera
 
         // Calculate the location of the upper left pixel.
         auto viewport_upper_left = center - (focus_dist * w) - viewport_u / 2 - viewport_v / 2;
+        std::cout << "ViewPORT UPPER LEFT " << viewport_upper_left << std::endl;
+        std::cout << "Component along direction:" << -(focus_dist * w) << std::endl;
+        std::cout << "Component along u (horizontal):" << -viewport_u / 2 << std::endl;
+        std::cout << "Component along v (vertical):" << -viewport_v / 2 << std::endl;
+
+        std::cout << "Sum without center:" << -(focus_dist * w) - viewport_u / 2 - viewport_v / 2
+                  << std::endl;
+        std::cout << "Sum with center:"
+                  << center - (focus_dist * w) - viewport_u / 2 - viewport_v / 2 << std::endl;
         pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+        std::cout << "0 0 pixel location (ref): " << pixel00_loc << std::endl;
     }
 
     vec3 pixel_sample_square() const
