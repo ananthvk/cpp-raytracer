@@ -15,7 +15,7 @@ int main()
 {
     int k = 0;
     int max_val = image_height;
-    RegularCamera cam(image_width, image_height);
+    ReferenceCamera cam;
     Scene scene;
     cam.debug_info(std::cout);
     // TODO: Set VT terminal when compiling on windows
