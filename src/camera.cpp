@@ -3,17 +3,12 @@
 MovableCamera::MovableCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
-    // position = vec3(0.0, 0.0, 0.0);       // The position of the camera
-    // vec3 lookat = vec3(0.0, 0.0, -1.0);   // The point the camera is looking at
-    // vec3 camera_up = vec3(0.0, 1.0, 0.0); // The up direction relative to the camera
-    fov = (PI / 180.0) * 90;
+    fov = (PI / 180.0) * 20;
     position = vec3(-2, 2, 1);
     vec3 lookat = vec3(0, 0, -1);
     vec3 camera_up = vec3(0, 1, 0);
 
-
     focal_length = 10;
-    // linalg::length(lookat - position); // Distance between the camera and the lookat
     // Use the Gram-Schimdt process to find the orthonormal basis
     // https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
 
@@ -47,20 +42,16 @@ Ray MovableCamera::get_ray(int row, int col, bool sample) const
     // Convert the pixel values to viewport system
     double vx = x * delta_x;
     double vy = y * delta_y;
+
     if (sample)
     {
         vx += (uniform() - 0.5) * delta_x;
         vy += (uniform() - 0.5) * delta_y;
     }
-    vec3 vpoint = (up * vy) + (right * vx) + (direction * focal_length);
-    std::cout << "PIXEL IMPL" << vpoint << std::endl;
-    std::cout << "*Component along direction:" << direction * focal_length << std::endl;
-    std::cout << "*Component along u (horizontal):" << right * vx << std::endl;
-    std::cout << "*Component along v (vertical):" << up * vy << std::endl;
-    std::cout << "*Sum without center: " << direction * focal_length + right * vx + up * vy
-              << std::endl;
-    std::cout << "*Sum with center: " << position + direction * focal_length + right * vx + up * vy
-              << std::endl;
+    // Translate the viewport, keeping the camera's position as origin.
+    // The bug resulted in not shifting the origin of the viewport.
+    vec3 vpoint = position + (up * vy) + (right * vx) + (direction * focal_length);
+    vpoint = vpoint + 0.5 * ((delta_x * right) + (up * delta_y));
     return Ray(position, vpoint - position);
 }
 
