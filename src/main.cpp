@@ -8,11 +8,13 @@
 const int image_width = 400;
 const int image_height = 225;
 const int PROGRESSBAR_WIDTH = 40;
-const int SAMPLES_PER_PIXEL = 1000; // NOTE: MUST BE NON-ZERO AND POSITIVE
+const int SAMPLES_PER_PIXEL = 100; // NOTE: MUST BE NON-ZERO AND POSITIVE
 const int RECURSION_LIMIT = 50;
 
 int main()
 {
+    // Seed the random number generator
+    //srand((unsigned)time(NULL));
     int k = 0;
     int max_val = image_height;
     MovableCamera cam(image_width, image_height);

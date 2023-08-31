@@ -2,6 +2,7 @@
 #include "linalg.h"
 #include <limits>
 #include <random>
+#include <stdlib.h>
 constexpr double PI = 3.141592653589793238463;
 constexpr double ZERO_EPSILON = 1e-6;
 constexpr double EPSILON = 1e-6;
@@ -77,13 +78,13 @@ struct RayParams
     double t_max;
 };
 
-// Gets a random number between 0 and 1
 inline double uniform()
 {
-    std::random_device rd;
-    static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    static std::mt19937 generator(rd());
-    return distribution(generator);
+    static std::random_device device;
+    static std::mt19937 gen(device());
+    static std::uniform_real_distribution<double> distribution(0, 1);
+
+    return distribution(gen);
 }
 
 inline double uniform(double min, double max)

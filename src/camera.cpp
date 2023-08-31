@@ -3,7 +3,7 @@
 MovableCamera::MovableCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
-    fov = (PI / 180.0) * 20;
+    fov = (PI / 180.0) * 90;
     position = vec3(-2, 2, 1);
     vec3 lookat = vec3(0, 0, -1);
     vec3 camera_up = vec3(0, 1, 0);
@@ -51,6 +51,7 @@ Ray MovableCamera::get_ray(int row, int col, bool sample) const
     // Translate the viewport, keeping the camera's position as origin.
     // The bug resulted in not shifting the origin of the viewport.
     vec3 vpoint = position + (up * vy) + (right * vx) + (direction * focal_length);
+    // Parity with the book - does not give the same answer though
     vpoint = vpoint + 0.5 * ((delta_x * right) + (up * delta_y));
     return Ray(position, vpoint - position);
 }
