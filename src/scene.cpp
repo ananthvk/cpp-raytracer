@@ -2,6 +2,7 @@
 
 Scene::Scene()
 {
+    /*
     materials.push_back(new LambertianDiffuse(color(0.8, 0.8, 0.0)));
     materials.push_back(new LambertianDiffuse(color(0.1, 0.2, 0.5)));
     materials.push_back(new Glass(WHITE, 1.5));
@@ -12,6 +13,17 @@ Scene::Scene()
     objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), 0.5, 2));
     objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), -0.4, 2));
     objects.push_back(new Sphere(vec3(1.0, 0.0, -1.0), 0.5, 3));
+    */
+
+    materials.push_back(new LambertianDiffuse(color(0.5, 0.5, 0.5)));
+    materials.push_back(new Glass(WHITE, 1.5));
+    materials.push_back(new LambertianDiffuse(color(0.4, 0.2, 0.1)));
+    materials.push_back(new Metal(color(0.7, 0.6, 0.5), 0.0));
+
+    objects.push_back(new Sphere(vec3(0, -1000, 0), 1000, 0));
+    objects.push_back(new Sphere(vec3(0, 1, 0), 1.0, 1));
+    objects.push_back(new Sphere(vec3(-4, 1, 0), 1.0, 2));
+    objects.push_back(new Sphere(vec3(4, 1, 0), 1.0, 3));
 }
 
 color Scene::color_at(const Ray &ray, int recursion_limit)

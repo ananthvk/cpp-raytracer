@@ -6,8 +6,8 @@
 #include "scene.hpp"
 #include <iostream>
 
-const int image_width = 400;
-const int image_height = 225;
+constexpr int image_width = 400;
+constexpr int image_height = image_width * (9.0/16.0);
 const int PROGRESSBAR_WIDTH = 40;
 const int SAMPLES_PER_PIXEL = 100; // NOTE: MUST BE NON-ZERO AND POSITIVE
 const int RECURSION_LIMIT = 50;

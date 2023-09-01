@@ -4,12 +4,14 @@ MovableCamera::MovableCamera(int image_width, int image_height)
     : image_width(image_width), image_height(image_height)
 {
     fov = radians(20);
-    position = vec3(-2, 2, 1);
-    vec3 lookat = vec3(0, 0, -1);
+    position = vec3(13, 2, 3);
+    vec3 lookat = vec3(0, 0, 0);
     vec3 camera_up = vec3(0, 1, 0);
 
-    focal_length = 3.4;
-    defocus_angle = radians(10);
+    defocus_angle = 0;//radians(0.6);
+    focal_length = 10.0;
+
+    // Calculated properties
     defocus_radius = focal_length * std::tan(defocus_angle / 2.0);
     // Use the Gram-Schimdt process to find the orthonormal basis
     // https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
