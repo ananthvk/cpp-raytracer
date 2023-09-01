@@ -1,24 +1,19 @@
 #include "camera.hpp"
 #include "colors.hpp"
+#include "config.h"
+#include "frombook.hpp"
 #include "image.hpp"
 #include "progressbar.hpp"
-#include "frombook.hpp"
 #include "scene.hpp"
 #include <iostream>
-
-constexpr int image_width = 400;
-constexpr int image_height = image_width * (9.0/16.0);
-const int PROGRESSBAR_WIDTH = 40;
-const int SAMPLES_PER_PIXEL = 100; // NOTE: MUST BE NON-ZERO AND POSITIVE
-const int RECURSION_LIMIT = 50;
 
 int main()
 {
     // Seed the random number generator
-    //srand((unsigned)time(NULL));
+    // srand((unsigned)time(NULL));
     int k = 0;
-    int max_val = image_height;
-    MovableCamera cam(image_width, image_height);
+    int max_val = IMAGE_HEIGHT;
+    MovableCamera cam;
     Scene scene;
     cam.debug_info(std::cout);
     // TODO: Set VT terminal when compiling on windows
@@ -26,10 +21,10 @@ int main()
     progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);
     try
     {
-        image img(image_height, image_row(image_width, color()));
-        for (int i = 0; i < image_height; ++i)
+        image img(IMAGE_HEIGHT, image_row(IMAGE_WIDTH, color()));
+        for (int i = 0; i < IMAGE_HEIGHT; ++i)
         {
-            for (int j = 0; j < image_width; ++j)
+            for (int j = 0; j < IMAGE_WIDTH; ++j)
             {
                 color pixel_color(0, 0, 0);
                 for (int sample = 0; sample < SAMPLES_PER_PIXEL; ++sample)

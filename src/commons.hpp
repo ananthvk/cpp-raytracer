@@ -173,4 +173,4 @@ inline bool almost_equal(const vec3 &v1, const vec3 &v2)
            fabs(v1.z - v2.z) < EPSILON;
 }
 
-inline double radians(double degrees) { return (PI / 180.0) * degrees; }
+inline constexpr double radians(double degrees) { return (PI / 180.0) * degrees; }

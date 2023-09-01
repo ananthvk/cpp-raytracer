@@ -1,15 +1,16 @@
 #include "camera.hpp"
+#include "config.h"
 
-MovableCamera::MovableCamera(int image_width, int image_height)
-    : image_width(image_width), image_height(image_height)
+MovableCamera::MovableCamera()
+    : image_width(IMAGE_WIDTH), image_height(IMAGE_HEIGHT)
 {
-    fov = radians(20);
-    position = vec3(13, 2, 3);
-    vec3 lookat = vec3(0, 0, 0);
-    vec3 camera_up = vec3(0, 1, 0);
+    fov = CAMERA_FOV;
+    position = CAMERA_POSITION;
+    vec3 lookat = CAMERA_LOOKAT;
+    vec3 camera_up = CAMERA_UP;
 
-    defocus_angle = 0;//radians(0.6);
-    focal_length = 10.0;
+    defocus_angle = CAMERA_DEFOCUS_ANGLE;
+    focal_length = CAMERA_FOCAL_LENGTH;
 
     // Calculated properties
     defocus_radius = focal_length * std::tan(defocus_angle / 2.0);

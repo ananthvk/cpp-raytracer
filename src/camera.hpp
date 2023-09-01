@@ -52,7 +52,7 @@ class MovableCamera : public Camera
     vec3 get_defocused_origin() const;
 
   public:
-    MovableCamera(int image_width, int image_height);
+    MovableCamera();
     // Returns a ray which passes through a pixel at (row, col)
     // Note: pixels start from (0,0), which is the top left corner
     Ray get_ray(int row, int col, bool sample = false) const override;
