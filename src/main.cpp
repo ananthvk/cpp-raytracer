@@ -9,16 +9,13 @@
 
 int main()
 {
-    // Seed the random number generator
-    // srand((unsigned)time(NULL));
-    int k = 0;
-    int max_val = IMAGE_HEIGHT;
     MovableCamera cam;
     Scene scene;
+    ProgressBar progress_bar(IMAGE_HEIGHT, PROGRESSBAR_WIDTH, true);
     cam.debug_info(std::cout);
     // TODO: Set VT terminal when compiling on windows
-    progressbar_hide_cursor();
-    progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);
+    progress_bar.hide_cursor(std::cout);
+    progress_bar.display(std::cout);
     try
     {
         image img(IMAGE_HEIGHT, image_row(IMAGE_WIDTH, color()));
@@ -36,11 +33,11 @@ int main()
                 pixel_color = gamma_correction(pixel_color, 2); // Apply gamma 2
                 img[i][j] = pixel_color;
             }
-            ++k;
-            progressbar_display(std::cout, k, max_val, PROGRESSBAR_WIDTH);
+            progress_bar.tick();
+            progress_bar.display(std::cout);
         }
         std::cout << std::endl;
-        progressbar_show_cursor();
+        progress_bar.show_cursor(std::cout);
         std::cout << "Writing to disk....." << std::endl;
         write_to_file("output.png", img);
     }
