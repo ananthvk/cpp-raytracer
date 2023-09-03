@@ -33,6 +33,45 @@ Scene::Scene()
     objects.push_back(new Sphere(vec3(0, 1, 0), 1.0, 1));
     objects.push_back(new Sphere(vec3(-4, 1, 0), 1.0, 2));
     objects.push_back(new Sphere(vec3(4, 1, 0), 1.0, 3));
+
+    // Generate 150 materials
+    for (int i = 0; i < 150; ++i)
+    {
+        double u = uniform();
+        double x = uniform(), y = uniform(), z = uniform();
+        double p = uniform(0, 0.5);
+        if (u < 0.5)
+        {
+            // 50 % of all spheres are diffuse
+            materials.push_back(new LambertianDiffuse(color(x, y, z)));
+        }
+        else if (u < 0.9)
+        {
+            // Metals, 40 % chance
+            materials.push_back(new Metal(color(x, y, z), p));
+        }
+        else
+        {
+            // Glass with refractive indices between 1.1 and 1.6
+            materials.push_back(new Glass(WHITE, 1.1 + p));
+        }
+    }
+
+
+    // Generate the random spheres
+
+    for (int a = -11; a < 11; a++)
+    {
+        for (int b = -11; b < 11; b++)
+        {
+            vec3 center(a + 0.9 * uniform(), 0.2, b + 0.9 * uniform());
+            if (linalg::length((center - vec3(4, 0.2, 0))) > 0.9)
+            {
+                int material = randint(4, materials.size() - 1);
+                objects.push_back(new Sphere(center, 0.2, material));
+            }
+        }
+    }
 }
 
 color Scene::color_at(const Ray &ray, int recursion_limit)
@@ -72,7 +111,8 @@ Intersection Scene::closest_intersect(const RayParams &params)
     for (const auto &obj : objects)
     {
         auto i = obj->intersect(params);
-        // If this intersection is closer to the ray's origin, choose it as the closest intersection
+        // If this intersection is closer to the ray's origin, choose it as the closest
+        // intersection
         if (i.occured && i.parametric < intersect_distance)
         {
             intersect_distance = i.parametric;

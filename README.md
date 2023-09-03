@@ -52,6 +52,7 @@ On windows, open the project in MSVC and build the project.
 Run the generated executable.
 
 ## Sample renders
+![Final render of book 1](renders/final_100_50recursions.png)
 ![A render of a scene with 3 spheres](renders/partial_1k_50recursions.png)
 ![A closeup view of 3 sphers](renders/image_21_1k_50recursions.png)
 

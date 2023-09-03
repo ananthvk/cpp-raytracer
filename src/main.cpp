@@ -66,7 +66,7 @@ int main()
         std::cout << std::endl;
         progress_bar.show_cursor(std::cout);
         std::cout << "Writing to disk....." << std::endl;
-        write_to_file("output.png", img);
+        write_to_file(FILENAME, img);
     }
     catch (const std::exception &e)
     {
