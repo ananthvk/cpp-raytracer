@@ -1,17 +1,17 @@
 // MIT License
-// 
+//
 // Copyright (c) 2023 Ananthanarayanan Venkitakrishnan (https://github.com/ananthvk)
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,14 +26,14 @@
 class ReferenceCamera : public Camera
 {
   public:
-    double aspect_ratio = 16.0/ 9.0;  // Ratio of image width over height
-    int image_width = 400;      // Rendered image width in pixel count
-    int samples_per_pixel = 100; // Count of random samples for each pixel
-    int max_depth = 50;         // Maximum number of ray bounces into scene
+    double aspect_ratio = 16.0 / 9.0; // Ratio of image width over height
+    int image_width = 400;            // Rendered image width in pixel count
+    int samples_per_pixel = 100;      // Count of random samples for each pixel
+    int max_depth = 50;               // Maximum number of ray bounces into scene
 
     double vfov = 20;               // Vertical view angle (field of view)
     vec3 lookfrom = vec3(-2, 2, 1); // Point camera is looking from
-    vec3 lookat = vec3(0, 0, -1);    // Point camera is looking at
+    vec3 lookat = vec3(0, 0, -1);   // Point camera is looking at
     vec3 vup = vec3(0, 1, 0);       // Camera-relative "up" direction
 
     double defocus_angle = 10; // Variation angle of rays through each pixel
