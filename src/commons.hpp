@@ -1,3 +1,4 @@
+// A header file for defining commonly used structures, functions and constants
 #pragma once
 #include "linalg.h"
 #include <limits>
@@ -7,20 +8,30 @@ constexpr double PI = 3.141592653589793238463;
 constexpr double ZERO_EPSILON = 1e-6;
 constexpr double EPSILON = 1e-6;
 
-// Function to perform linear interpolation
-inline float lerp(float s, float e, float t) { return (1 - t) * s + t * e; }
+/// @brief Performs linear interpolation
+/// @param s starting value
+/// @param e ending value
+/// @param t parameter
+/// @return an interpolated value between start and end
+inline double lerp(double s, double e, double t) { return (1 - t) * s + t * e; }
 
 using vec3 = linalg::vec<double, 3>;
 const double INF = std::numeric_limits<double>::infinity();
 
+// A class for managing a single ray in a raytracer
 class Ray
 {
   private:
     vec3 rorigin, rdirection;
 
   public:
+    /// @brief  Creates a new ray with origin at (0,0,0) and direction as (0,0,0)
     Ray() : rorigin(), rdirection() {}
 
+    /// @brief Create a new ray
+    /// @param p Origin of the ray
+    /// @param d Direction of the ray
+    /// @param normalized true if the direction is normalized(default: false)
     Ray(const vec3 &p, const vec3 &d, bool normalized = false) : rorigin(p)
     {
         if (normalized)
@@ -33,13 +44,14 @@ class Ray
         }
     }
 
-    // Returns a unit vector in the direction of this ray
+    /// @return Direction of this ray
     vec3 direction() const { return rdirection; }
 
-    // Returns the starting point of this ray
+    /// @return Starting point of this ray
     vec3 origin() const { return rorigin; }
 
-    // Returns a point on this ray at a distance t from the origin of the ray
+    /// @param t Parameter A = p + dt, to find a point on the ray at a distance t
+    /// @return Returns a point on this ray at a distance t from the origin of the ray
     vec3 at(double t) const { return rorigin + (t * rdirection); }
 };
 
@@ -78,6 +90,7 @@ struct RayParams
     double t_max;
 };
 
+/// @return A uniformly generated random number between 0 and 1
 inline double uniform()
 {
     static std::random_device device;
@@ -87,6 +100,7 @@ inline double uniform()
     return distribution(gen);
 }
 
+/// @return A uniformly generated random number between -1 and 1
 inline double uniform_minus_one_to_one()
 {
     static std::random_device device;
@@ -96,6 +110,7 @@ inline double uniform_minus_one_to_one()
     return distribution(gen);
 }
 
+/// @return A uniformly generated random real number between min and max
 inline double uniform(double min, double max)
 {
     static std::uniform_real_distribution<double> distribution(min, max);
@@ -103,6 +118,7 @@ inline double uniform(double min, double max)
     return distribution(generator);
 }
 
+/// @return A uniformly generated integer between min and max
 inline int randint(int min, int max)
 {
     static std::uniform_int_distribution<int> distribution(min, max);
@@ -110,7 +126,7 @@ inline int randint(int min, int max)
     return distribution(generator);
 }
 
-// This function returns a random unit vector inside a sphere
+/// @return A random unit vector inside a sphere
 inline vec3 random_in_unit_sphere()
 {
     while (1)
@@ -121,6 +137,7 @@ inline vec3 random_in_unit_sphere()
     }
 }
 
+/// @return A random vector inside a disk(circlular plate)
 inline vec3 random_in_unit_disk()
 {
     while (1)
@@ -131,18 +148,26 @@ inline vec3 random_in_unit_disk()
     }
 }
 
-// Returns true if the vector is a zero vector
+/// @param v Vector to be checked
+/// @return true if the vector is a zero vector
 inline bool is_zero_vector(const vec3 &v)
 {
     return fabs(v.x) < ZERO_EPSILON && fabs(v.y) < ZERO_EPSILON && fabs(v.z) < ZERO_EPSILON;
 }
 
-// Returns the ray after reflection
+/// @brief Performs reflection using laws of reflection
+/// @param v Direction of incident ray
+/// @param n Vector representing normal at the surface
+/// @return The reflected ray
 inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v, n) * n; }
 
-// Returns the refracted ray, uses vectors to denote normals and the rays
-// For more information
-// https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
+/// @brief Performs reflection using laws of reflection
+/// For more information
+/// https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
+/// @param incident Direction of incident ray
+/// @param normal Vector representing normal at the surface
+/// @param rel_i Relative refractive index of the surface with its surroundings
+/// @return The refracted ray
 inline vec3 refract(const vec3 &incident, const vec3 &normal, double rel_i)
 {
     auto cos_theta = std::min(linalg::dot(-incident, normal), 1.0);
@@ -151,26 +176,35 @@ inline vec3 refract(const vec3 &incident, const vec3 &normal, double rel_i)
     return refracted_perpendicular + refracted_parallel;
 }
 
+/// @brief Schlick approximation for viewing angle of glass
+/// The reflectivity of glass changes with the angle in which it is viewed. For example water
+/// appears like a mirror when viewed in a particular angle. This is an approximation of the real
+/// phenomenon.
+/// For more information
+/// https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/schlickapproximation
 inline double schlick(double cosine, double ref_idx)
 {
-    // https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/schlickapproximation
-    // The reflectivity of glass changes with the angle in which it is viewed. For example water
-    // appears like a mirror when viewed in a particular angle. This is an approximation of the real
-    // phenomenon.
     auto r0 = (1 - ref_idx) / (1 + ref_idx);
     r0 = r0 * r0;
     return r0 + (1 - r0) * pow((1 - cosine), 5);
 }
 
+/// @brief  Checks if the surface will reflect or refract
+/// @return true if this results in reflection instead of refraction
 inline bool schlick_reflects(double cosine, double refractive_index)
 {
     return schlick(cosine, refractive_index) > uniform();
 }
 
+/// @brief Check equality between vectors
+/// @param v1 The first vector
+/// @param v2 The second vector
+/// @return true if both vectors are nearly same
 inline bool almost_equal(const vec3 &v1, const vec3 &v2)
 {
     return fabs(v1.x - v2.x) < EPSILON && fabs(v1.y - v2.y) < EPSILON &&
            fabs(v1.z - v2.z) < EPSILON;
 }
 
+/// @brief Converts degrees to radians
 inline constexpr double radians(double degrees) { return (PI / 180.0) * degrees; }

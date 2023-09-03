@@ -12,10 +12,15 @@ class Scene
 
   public:
     Scene();
-    // Returns the color of the ray when it is incident on this scene
+
+    /// @param ray Input ray
+    /// @param recursion_limit Number of times this ray can bounce, after every bounce it is
+    /// decreased by one
+    /// @return The color of the ray when it passes through this scene
     color color_at(const Ray &ray, int recursion_limit);
-    // Finds the closest or first intersection of a ray with all object
-    // in this scene.
+
+    /// @param params Ray parameters
+    /// @return The intersection which is closest to the ray's origin
     Intersection closest_intersect(const RayParams &params);
     ~Scene();
 };

@@ -1,3 +1,4 @@
+// Function to write images
 #pragma once
 #include "colors.hpp"
 #include "commons.hpp"

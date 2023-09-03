@@ -22,6 +22,7 @@ void write_to_file(const std::string &filename, image img)
     {
         for (size_t j = 0; j < width; ++j)
         {
+            // Convert from floating point representation to RGB[0, 255]
             data[(i * width + j) * CHANNELS] =
                 static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].x) % 256);
             data[(i * width + j) * CHANNELS + 1] =
@@ -30,6 +31,7 @@ void write_to_file(const std::string &filename, image img)
                 static_cast<uint8_t>((int)(SCALE_FACTOR * img[i][j].z) % 256);
         }
     }
+    // Write the image to png file
     stbi_write_png(filename.c_str(), width, height, CHANNELS, data,
                    width * CHANNELS);
     free(data);

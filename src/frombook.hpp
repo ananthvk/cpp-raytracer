@@ -1,7 +1,7 @@
+// The code below has been taken from the book to help debug or find bugs
 #include "camera.hpp"
 #include <ostream>
 
-// The code below has been taken from the book to help debug or find bugs
 class ReferenceCamera : public Camera
 {
   public:

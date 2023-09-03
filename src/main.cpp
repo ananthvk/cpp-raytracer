@@ -19,6 +19,10 @@ int main()
     try
     {
         image img(IMAGE_HEIGHT, image_row(IMAGE_WIDTH, color()));
+        // For each pixel in the image, generate a ray from the camera,
+        // then get the color of the ray from the scene.
+        // Perform this operation a number of times to sample average the color value for a
+        // particular pixel
         for (int i = 0; i < IMAGE_HEIGHT; ++i)
         {
             for (int j = 0; j < IMAGE_WIDTH; ++j)
@@ -30,7 +34,9 @@ int main()
                     pixel_color += scene.color_at(ray, RECURSION_LIMIT);
                 }
                 pixel_color /= SAMPLES_PER_PIXEL;
-                pixel_color = gamma_correction(pixel_color, 2); // Apply gamma 2
+                // Apply gamma correction, so that the image gets saved accurately
+                // Apply gamma 2
+                pixel_color = gamma_correction(pixel_color, GAMMA);
                 img[i][j] = pixel_color;
             }
             progress_bar.tick();

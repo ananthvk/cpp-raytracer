@@ -2,19 +2,7 @@
 
 Scene::Scene()
 {
-    /*
-    materials.push_back(new LambertianDiffuse(color(0.8, 0.8, 0.0)));
-    materials.push_back(new LambertianDiffuse(color(0.1, 0.2, 0.5)));
-    materials.push_back(new Glass(WHITE, 1.5));
-    materials.push_back(new Metal(color(0.8, 0.6, 0.2), 0.0));
-
-    objects.push_back(new Sphere(vec3(0.0, -100.5, -1.0), 100.0, 0));
-    objects.push_back(new Sphere(vec3(0.0, 0.0, -1.0), 0.5, 1));
-    objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), 0.5, 2));
-    objects.push_back(new Sphere(vec3(-1.0, 0.0, -1.0), -0.4, 2));
-    objects.push_back(new Sphere(vec3(1.0, 0.0, -1.0), 0.5, 3));
-    */
-
+    // A sample render scene
     materials.push_back(new LambertianDiffuse(color(0.5, 0.5, 0.5)));
     materials.push_back(new Glass(WHITE, 1.5));
     materials.push_back(new LambertianDiffuse(color(0.4, 0.2, 0.1)));
@@ -30,16 +18,18 @@ color Scene::color_at(const Ray &ray, int recursion_limit)
 {
     if (recursion_limit == 0)
     {
-        // The function has reached recursion limit, no more light can be
-        // gathered so return black
+        // The function has reached recursion limit, so no more light can be
+        // gathered, so return black.
         return color(0, 0, 0);
     }
     // 0.001 is used to prevent intersection of the ray with the same surface
-    // from which it is cast
+    // from which it is cast, to prevent shadow acne
     auto params = RayParams({ray, 0.001, INFINITY});
+    // Find the closest intersection of this ray in this given scene
     Intersection intersect = closest_intersect(params);
     if (intersect.occured)
     {
+        // Perform material-ray interactions, such as reflection, refraction, etc
         auto interaction = materials[intersect.material_id]->interact(params, intersect);
         if (interaction.additional_rays)
         {
@@ -61,7 +51,7 @@ Intersection Scene::closest_intersect(const RayParams &params)
     for (const auto &obj : objects)
     {
         auto i = obj->intersect(params);
-        // If this intersection is closer to the ray's origin, choose it
+        // If this intersection is closer to the ray's origin, choose it as the closest intersection
         if (i.occured && i.parametric < intersect_distance)
         {
             intersect_distance = i.parametric;

@@ -40,9 +40,11 @@ Intersection Sphere::intersect(const RayParams &params) const
     details.occured = true;
     details.parametric = root;
     details.point = ray.at(root);
+    // Find the outward normal or the normal which always points out of the sphere
     details.o_normal = (details.point - center) / radius;
     details.material_id = material_id;
     details.ray = params.ray;
+    // Find the local normal, or the normal on the side of the ray
     if (linalg::dot(details.o_normal, ray.direction()) > 0.0)
     {
         // The ray is inside the sphere

@@ -4,7 +4,7 @@
 
 struct MaterialInteraction
 {
-    // true if this interaction produces other rays which have to be considered
+    // true if this interaction produces other rays which have to be processed
     bool additional_rays;
     // Additional rays produced due to this interaction
     Ray ray;
@@ -12,6 +12,7 @@ struct MaterialInteraction
     color attenuation;
 };
 
+// An abstract class for any material
 class Material
 {
   public:
@@ -24,7 +25,7 @@ class Material
 class LambertianDiffuse : public Material
 {
   public:
-    // By default the color of the material is gray
+    // By default the color of the material is gray, (0.5, 0.5, 0.5)
     LambertianDiffuse();
 
     LambertianDiffuse(const color &albedo);

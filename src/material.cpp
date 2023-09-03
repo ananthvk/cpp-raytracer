@@ -8,8 +8,10 @@ MaterialInteraction LambertianDiffuse::interact(const RayParams &params,
                                                 const Intersection &intersect) const
 {
     // Diffuse materials
-    // In these materials, rays which are incident on the surface
-    // are randomly reflected in all directions.
+    // -----------------
+    // When light is incident on these materials, the light rays are bounced back randomly in
+    // different directions. These materials are rough and do not produce a clear reflection.
+    // Examples: plastic, wood, etc.
     MaterialInteraction interaction;
     auto scatter_direction = intersect.local_normal + random_in_unit_sphere();
     // To prevent cases where the direction becomes zero when the random vector is exactly opposite
@@ -37,11 +39,15 @@ Metal::Metal(const color &albedo, double fuzziness)
 
 MaterialInteraction Metal::interact(const RayParams &params, const Intersection &intersect) const
 {
-    // Metal surfaces, these surfaces do not refelect the ray randomly
-    // instead they are refelcted with the same angle of incidence
+    // Metals
+    // ------
+    // Metals are highly polished and the reflection of light is well defined and follows the
+    // laws of reflection. All rays which are incident with the same angle are reflected
+    // with the same angle.
     MaterialInteraction interaction;
     auto reflect_direction = reflect(intersect.ray.direction(), intersect.local_normal);
     auto scattered = linalg::normalize(reflect_direction + fuzziness * random_in_unit_sphere());
+    // If the scattered ray passes into the surface, ignore it
     if (linalg::dot(scattered, intersect.local_normal) < 0)
     {
         interaction.additional_rays = false;

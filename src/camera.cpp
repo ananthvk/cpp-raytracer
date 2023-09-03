@@ -1,8 +1,7 @@
 #include "camera.hpp"
 #include "config.h"
 
-MovableCamera::MovableCamera()
-    : image_width(IMAGE_WIDTH), image_height(IMAGE_HEIGHT)
+MovableCamera::MovableCamera() : image_width(IMAGE_WIDTH), image_height(IMAGE_HEIGHT)
 {
     fov = CAMERA_FOV;
     position = CAMERA_POSITION;
@@ -16,22 +15,22 @@ MovableCamera::MovableCamera()
     defocus_radius = focal_length * std::tan(defocus_angle / 2.0);
     // Use the Gram-Schimdt process to find the orthonormal basis
     // https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
-
-    // Define the basis for calculating the rays
-    direction = linalg::normalize(lookat - position);
     // Use left-handed coordinate system, camera points towards positive z
+    // Create a left handed coordinate system centered at the camera's position, with one vector in
+    // the direction of lookat - lookfrom
+    direction = linalg::normalize(lookat - position);
     right = linalg::normalize(linalg::cross(direction, camera_up));
     up = linalg::normalize(linalg::cross(right, direction));
 
+    // Some other calculations
     aspect_ratio = static_cast<double>(image_width) / image_height;
     viewport_height = 2.0 * std::tan(fov / 2.0) * focal_length;
     viewport_width = aspect_ratio * viewport_height;
+    // Spacing between two pixels on the viewport
     delta_x = viewport_width / image_width;
     delta_y = viewport_height / image_height;
 }
 
-// Returns a ray which passes through a pixel at (row, col)
-// Note: pixels start from (0,0), which is the top left corner
 Ray MovableCamera::get_ray(int row, int col, bool sample) const
 {
     // Find the other point on this ray, one end point is the position of
@@ -62,12 +61,10 @@ Ray MovableCamera::get_ray(int row, int col, bool sample) const
     return Ray(ray_origin, ray_direction);
 }
 
-// Get a random origin for a new ray on the plane of the actual origin of the camera
-// This acts as thin lens approximation
 vec3 MovableCamera::get_defocused_origin() const
 {
-    // auto rnd = random_in_unit_disk();
-    // return defocus_radius * ((rnd[0] * right) + (rnd[1] * up));
+    // Get a random origin for a new ray on the plane of the actual origin of the camera
+    // This acts as thin lens approximation
     auto p = random_in_unit_disk();
     return position + (p[0] * up * defocus_radius) + (p[1] * right * defocus_radius);
 }

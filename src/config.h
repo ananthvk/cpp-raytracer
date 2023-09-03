@@ -1,5 +1,7 @@
+// Some configuration options such as image width, height, samples per pixel, etc
 #pragma once
 #include "commons.hpp"
+constexpr int GAMMA = 2;
 constexpr int IMAGE_WIDTH = 400;
 constexpr int IMAGE_HEIGHT = IMAGE_WIDTH * (9.0 / 16.0);
 constexpr int PROGRESSBAR_WIDTH = 40;

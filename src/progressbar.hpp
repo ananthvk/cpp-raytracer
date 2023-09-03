@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 
+// A class which represents an ASCII progressbar
 class ProgressBar
 {
   private:
@@ -12,13 +13,20 @@ class ProgressBar
     bool display_percent;
 
   public:
+    /// @brief Constructor for progressbar
+    /// @param max_value 
+    /// @param width 
+    /// @param display_percent 
     ProgressBar(int max_value, int width, bool display_percent = true)
         : value(0), max_value(max_value), width(width), display_percent(display_percent)
     {
     }
 
+    /// @brief Updates the value of progressbar by given amount
+    /// @param dt the amount by which the progressbar value has to be increased
     void tick(int dt = 1) { value += dt; }
 
+    /// @brief Display the progressbar on the passed stream
     void display(std::ostream &os)
     {
         char fill = '=';
@@ -37,9 +45,9 @@ class ProgressBar
         os << std::flush;
     }
 
-    // Hide the cursor to prevent flickering when updating progressbar
+    /// @brief Hide the cursor to prevent flickering when updating progressbar
     void hide_cursor(std::ostream &os) { os << "\033[?25l"; }
 
-    // Show the cursor
+    /// @brief Show the cursor
     void show_cursor(std::ostream &os) { os << "\033[?25h"; }
 };

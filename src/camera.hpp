@@ -4,6 +4,8 @@
 #include <ostream>
 using namespace linalg::ostream_overloads;
 
+// An abstract class which represents a camera and is used to get rays according
+// to the pixel coordinates
 class Camera
 {
   public:
@@ -13,10 +15,11 @@ class Camera
     virtual ~Camera() {}
 };
 
+// A simple camera class which implements depth-of-field, field-of-view, lookat and position
+// Note unless specified, all angle values are in radians
 class MovableCamera : public Camera
 {
   private:
-    // Note unless specified, all angle values are in radians
     // A vector which represents the alignment of the camera
     vec3 up;
     // A vector which points to the right of the camera
@@ -48,13 +51,19 @@ class MovableCamera : public Camera
     // The radius of disk from which rays are cast to the screen
     double defocus_radius;
 
-    // Returns a random origin for a new ray on the defocus disk
+    /// Returns a random origin for a new ray on the defocus disk
     vec3 get_defocused_origin() const;
 
   public:
     MovableCamera();
-    // Returns a ray which passes through a pixel at (row, col)
-    // Note: pixels start from (0,0), which is the top left corner
+    /// Returns a ray which passes through a pixel at (row, col)
+    /// Note: pixels start from (0,0), which is the top left corner
+    /// @param row y coordinate or row of the pixel
+    /// @param col x coordinate or column of the pixel
+    /// @param sample Randomize the ray or not(by default, false)
+    /// @return A ray which passes through the given pixel from the center of the camera
     Ray get_ray(int row, int col, bool sample = false) const override;
+    /// Prints debug information to the given stream
+    /// @param os - std::ostream object
     void debug_info(std::ostream &os) const override;
 };
