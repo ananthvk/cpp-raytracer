@@ -21,6 +21,7 @@
 // SOFTWARE.
 #pragma once
 #include "commons.hpp"
+#include "config.h"
 #include <iostream>
 #include <ostream>
 using namespace linalg::ostream_overloads;
@@ -76,7 +77,7 @@ class MovableCamera : public Camera
     vec3 get_defocused_origin() const;
 
   public:
-    MovableCamera();
+    MovableCamera(const Config &conf);
     /// Returns a ray which passes through a pixel at (row, col)
     /// Note: pixels start from (0,0), which is the top left corner
     /// @param row y coordinate or row of the pixel

@@ -34,8 +34,8 @@ Scene::Scene()
     objects.push_back(new Sphere(vec3(-4, 1, 0), 1.0, 2));
     objects.push_back(new Sphere(vec3(4, 1, 0), 1.0, 3));
 
-    // Generate 150 materials
-    for (int i = 0; i < 150; ++i)
+    // Generate 50 materials
+    for (int i = 0; i < 50; ++i)
     {
         double u = uniform();
         double x = uniform(), y = uniform(), z = uniform();
@@ -60,9 +60,9 @@ Scene::Scene()
 
     // Generate the random spheres
 
-    for (int a = -11; a < 11; a++)
+    for (int a = -3; a < 3; a++)
     {
-        for (int b = -11; b < 11; b++)
+        for (int b = -3; b < 3; b++)
         {
             vec3 center(a + 0.9 * uniform(), 0.2, b + 0.9 * uniform());
             if (linalg::length((center - vec3(4, 0.2, 0))) > 0.9)
@@ -74,7 +74,7 @@ Scene::Scene()
     }
 }
 
-color Scene::color_at(const Ray &ray, int recursion_limit)
+color Scene::color_at(const Ray &ray, int recursion_limit) const
 {
     if (recursion_limit == 0)
     {
@@ -103,7 +103,7 @@ color Scene::color_at(const Ray &ray, int recursion_limit)
     return lerp(WHITE, SKY_COLOR_2, t);
 }
 
-Intersection Scene::closest_intersect(const RayParams &params)
+Intersection Scene::closest_intersect(const RayParams &params) const
 {
     double intersect_distance = INF;
     Intersection closest;
