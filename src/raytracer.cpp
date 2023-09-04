@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #include "raytracer.hpp"
-#include "image.hpp"
 #include "progressbar.hpp"
 #include <iostream>
 
@@ -30,14 +29,14 @@ void Renderer::set_config(const Config cfg) { config = cfg; }
 
 Config Renderer::get_config() const { return config; }
 
-void Renderer::render(const Camera &cam, const Scene &scene) const
+image Renderer::render(const Camera &cam, const Scene &scene) const
 {
     ProgressBar progress_bar(config.image_height, config.progressbar_width, true);
     progress_bar.hide_cursor(std::cout);
     progress_bar.display(std::cout);
+    image img(config.image_height, image_row(config.image_width, color()));
     try
     {
-        image img(config.image_height, image_row(config.image_width, color()));
         // For each pixel in the image, generate a ray from the camera,
         // then get the color of the ray from the scene.
         // Perform this operation a number of times to sample average the color value for a
@@ -53,9 +52,7 @@ void Renderer::render(const Camera &cam, const Scene &scene) const
                     pixel_color += scene.color_at(ray, config.recursion_limit);
                 }
                 pixel_color /= config.samples_per_pixel;
-                // Apply gamma correction, so that the image gets saved accurately
-                // Apply gamma 2
-                pixel_color = gamma_correction(pixel_color, config.gamma);
+                // Apply gamma correction at the time of saving
                 img[i][j] = pixel_color;
             }
             progress_bar.tick();
@@ -63,8 +60,6 @@ void Renderer::render(const Camera &cam, const Scene &scene) const
         }
         std::cout << std::endl;
         progress_bar.show_cursor(std::cout);
-        std::cout << "Writing to disk....." << std::endl;
-        write_to_file(config.filename, img);
     }
     catch (const std::exception &e)
     {
@@ -72,4 +67,5 @@ void Renderer::render(const Camera &cam, const Scene &scene) const
         std::cerr << e.what() << std::endl;
         exit(1);
     }
+    return img;
 }

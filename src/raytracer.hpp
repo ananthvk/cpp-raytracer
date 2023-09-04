@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #pragma once
-#include "config.h"
 #include "camera.hpp"
 #include "colors.hpp"
 #include "config.h"
 #include "scene.hpp"
+#include "image.hpp"
 
 class Renderer
 {
@@ -32,8 +32,8 @@ class Renderer
     Config config;
 
   public:
-    Renderer(const Config& config);
-    void render(const Camera &cam, const Scene &scene) const;
+    Renderer(const Config &config);
+    image render(const Camera &cam, const Scene &scene) const;
     void set_config(const Config cfg);
     Config get_config() const;
 };

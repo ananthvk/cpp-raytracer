@@ -37,7 +37,19 @@ int main()
     Scene scene;
     ProgressBar progress_bar(cfg.image_width, cfg.progressbar_width, true);
     cam.debug_info(std::cout);
+
     Renderer renderer(cfg);
-    renderer.render(cam, scene);
+    auto img = renderer.render(cam, scene);
+    // Apply gamma correction
+    for (auto &r : img)
+    {
+        for (auto &c : r)
+        {
+            c = gamma_correction(c, cfg.gamma);
+        }
+    }
+
+    std::cout << "Writing to disk....." << std::endl;
+    write_to_file(cfg.filename, img);
     return 0;
 }
