@@ -5,8 +5,8 @@ CXXFLAGS=-W -Wall -Wextra -pedantic -gdwarf-4 -O0 -fsanitize=integer,address,und
 INCLUDE_DIR=../include
 SRC_DIR=../src
 # May have slow build time because it does not cache individual compilations
-build: $(SRC_DIR)/material.cpp $(SRC_DIR)/scene.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/camera.cpp $(SRC_DIR)/image.cpp $(SRC_DIR)/progressbar.cpp $(SRC_DIR)/objects.cpp 
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/material.cpp $(SRC_DIR)/scene.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/camera.cpp $(SRC_DIR)/image.cpp $(SRC_DIR)/progressbar.cpp $(SRC_DIR)/objects.cpp -o raytracer
+build: $(SRC_DIR)/material.cpp $(SRC_DIR)/scene.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/camera.cpp $(SRC_DIR)/image.cpp $(SRC_DIR)/raytracer.cpp $(SRC_DIR)/objects.cpp 
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/material.cpp $(SRC_DIR)/scene.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/camera.cpp $(SRC_DIR)/image.cpp $(SRC_DIR)/raytracer.cpp $(SRC_DIR)/objects.cpp -o raytracer
 run: build 
 	./raytracer
 clean:

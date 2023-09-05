@@ -46,6 +46,8 @@ image Renderer::render(const Camera &cam, const Scene &scene, bool show_progress
         // then get the color of the ray from the scene.
         // Perform this operation a number of times to sample average the color value for a
         // particular pixel
+        if (config.samples_per_pixel <= 0)
+            return img;
 
         for (int i = 0; i < config.image_height; ++i)
         {
@@ -99,7 +101,28 @@ image multi_threaded_render(const Config &cfg, const Camera &cam, const Scene &s
     // try optimizing it.
     std::vector<std::thread> threads(number_of_threads);
     std::vector<image> images(number_of_threads, def_img);
-    std::vector<Renderer> renderers(number_of_threads, Renderer(cfg));
+    std::vector<Renderer> renderers;
+    auto base_spp = cfg.samples_per_pixel / number_of_threads;
+    int rem = cfg.samples_per_pixel % number_of_threads;
+    // sample per pixel for each of the threads
+    std::vector<int> spps(number_of_threads, base_spp);
+    int i = 0;
+    while (i < rem)
+    {
+        spps[i]++;
+        ++i;
+    }
+    Config local_cfg = cfg;
+
+    // Create the renderers
+    std::cout << "Using SPP: ";
+    for (int i = 0; i < number_of_threads; ++i)
+    {
+        local_cfg.samples_per_pixel = spps[i];
+        std::cout << local_cfg.samples_per_pixel << " ";
+        renderers.emplace_back(Renderer(local_cfg));
+    }
+    std::cout << std::endl;
 
     for (int i = 0; i < number_of_threads; ++i)
     {
@@ -113,6 +136,15 @@ image multi_threaded_render(const Config &cfg, const Camera &cam, const Scene &s
     {
         t.join();
     }
+    // Count number of threads with samples per pixels > 0
+    int nonzero = 0;
+    for (const auto &k : spps)
+    {
+        if (k > 0)
+        {
+            nonzero++;
+        }
+    }
     std::cout << "All threads finished" << std::endl;
     image rendered_img(cfg.image_height, image_row(cfg.image_width, color()));
     for (int i = 0; i < cfg.image_height; ++i)
@@ -121,7 +153,7 @@ image multi_threaded_render(const Config &cfg, const Camera &cam, const Scene &s
         {
             for (int k = 0; k < number_of_threads; ++k)
             {
-                rendered_img[i][j] += images[k][i][j] / (double)number_of_threads;
+                rendered_img[i][j] += images[k][i][j] / (double)nonzero;
             }
         }
     }

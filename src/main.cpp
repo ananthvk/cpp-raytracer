@@ -47,9 +47,10 @@ int main()
     // TODO: Modify the random code so that each thread has a different random generator.
     // TODO: Set VT terminal when compiling on windows
     Config cfg;
-    cfg.samples_per_pixel = 50;
-    cfg.image_width = 1920;
+    cfg.samples_per_pixel = 70;
+    cfg.image_width = 400;
     cfg.image_height = cfg.image_width * (9.0 / 16.0);
+    cfg.filename = "render.png";
     MovableCamera cam(cfg);
     Scene scene;
     cam.debug_info(std::cout);
