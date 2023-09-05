@@ -17,7 +17,7 @@ struct MaterialInteraction
 class Material
 {
   public:
-    virtual MaterialInteraction interact(const RayParams &params,
+    virtual MaterialInteraction interact(const RayParams params,
                                          const Intersection &intersect) const = 0;
 
     virtual ~Material() {}
@@ -31,7 +31,7 @@ class LambertianDiffuse : public Material
 
     LambertianDiffuse(const color &albedo);
 
-    MaterialInteraction interact(const RayParams &params,
+    MaterialInteraction interact(const RayParams params,
                                  const Intersection &intersect) const override;
 
   private:
@@ -42,7 +42,7 @@ class LambertianDiffuse : public Material
 class NormalShader : public Material
 {
   public:
-    MaterialInteraction interact(const RayParams &params,
+    MaterialInteraction interact(const RayParams params,
                                  const Intersection &intersect) const override
     {
 
@@ -63,7 +63,7 @@ class Metal : public Material
 
     Metal(const color &albedo, double fuzziness = 0.0);
 
-    MaterialInteraction interact(const RayParams &params,
+    MaterialInteraction interact(const RayParams params,
                                  const Intersection &intersect) const override;
 
   private:
@@ -77,7 +77,7 @@ class Glass : public Material
   public:
     Glass();
     Glass(const color &albedo, double r_index = 1.5);
-    MaterialInteraction interact(const RayParams &params,
+    MaterialInteraction interact(const RayParams params,
                                  const Intersection &intersect) const override;
 
   private:

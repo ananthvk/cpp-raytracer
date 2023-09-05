@@ -18,4 +18,4 @@ using image_row = std::vector<color>;
 using image = std::vector<image_row>;
 // Writes the floating point image data to the file after converting it to
 // integer format.
-void write_to_file(const std::string &filename, image img);
+void write_to_file(const std::string &filename, const image& img);

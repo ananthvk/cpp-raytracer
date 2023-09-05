@@ -5,7 +5,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-void write_to_file(const std::string &filename, image img)
+void write_to_file(const std::string &filename,const image& img)
 {
     size_t height = img.size();
     size_t width = (img.empty()) ? 0 : img[0].size();

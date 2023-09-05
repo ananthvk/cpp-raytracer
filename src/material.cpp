@@ -5,7 +5,7 @@ LambertianDiffuse::LambertianDiffuse() : albedo(color(0.5, 0.5, 0.5)) {}
 
 LambertianDiffuse::LambertianDiffuse(const color &albedo) : albedo(albedo) {}
 
-MaterialInteraction LambertianDiffuse::interact(const RayParams &params,
+MaterialInteraction LambertianDiffuse::interact(const RayParams params,
                                                 const Intersection &intersect) const
 {
     // Diffuse materials
@@ -38,7 +38,7 @@ Metal::Metal(const color &albedo, double fuzziness)
 {
 }
 
-MaterialInteraction Metal::interact(const RayParams &params, const Intersection &intersect) const
+MaterialInteraction Metal::interact(const RayParams params, const Intersection &intersect) const
 {
     // Metals
     // ------
@@ -67,7 +67,7 @@ Glass::Glass() : albedo(WHITE), r_index(1.5) {}
 
 Glass::Glass(const color &albedo, double r_index) : albedo(albedo), r_index(r_index) {}
 
-MaterialInteraction Glass::interact(const RayParams &params, const Intersection &intersect) const
+MaterialInteraction Glass::interact(const RayParams params, const Intersection &intersect) const
 {
     MaterialInteraction interaction;
     interaction.attenuation = albedo;

@@ -33,7 +33,7 @@ class Ray
     /// @param p Origin of the ray
     /// @param d Direction of the ray
     /// @param normalized true if the direction is normalized(default: false)
-    Ray(const vec3 &p, const vec3 &d, bool normalized = false) : rorigin(p)
+    Ray(const vec3 p, const vec3 d, bool normalized = false) : rorigin(p)
     {
         if (normalized)
         {
@@ -151,7 +151,7 @@ inline vec3 random_in_unit_disk()
 
 /// @param v Vector to be checked
 /// @return true if the vector is a zero vector
-inline bool is_zero_vector(const vec3 &v)
+inline bool is_zero_vector(const vec3 v)
 {
     return fabs(v.x) < ZERO_EPSILON && fabs(v.y) < ZERO_EPSILON && fabs(v.z) < ZERO_EPSILON;
 }
@@ -160,7 +160,7 @@ inline bool is_zero_vector(const vec3 &v)
 /// @param v Direction of incident ray
 /// @param n Vector representing normal at the surface
 /// @return The reflected ray
-inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v, n) * n; }
+inline vec3 reflect(const vec3 v, const vec3 n) { return v - 2 * linalg::dot(v, n) * n; }
 
 /// @brief Performs reflection using laws of reflection
 /// For more information
@@ -169,7 +169,7 @@ inline vec3 reflect(const vec3 &v, const vec3 &n) { return v - 2 * linalg::dot(v
 /// @param normal Vector representing normal at the surface
 /// @param rel_i Relative refractive index of the surface with its surroundings
 /// @return The refracted ray
-inline vec3 refract(const vec3 &incident, const vec3 &normal, double rel_i)
+inline vec3 refract(const vec3 incident, const vec3 normal, double rel_i)
 {
     auto cos_theta = std::min(linalg::dot(-incident, normal), 1.0);
     vec3 refracted_perpendicular = rel_i * (incident + cos_theta * normal);
@@ -201,7 +201,7 @@ inline bool schlick_reflects(double cosine, double refractive_index)
 /// @param v1 The first vector
 /// @param v2 The second vector
 /// @return true if both vectors are nearly same
-inline bool almost_equal(const vec3 &v1, const vec3 &v2)
+inline bool almost_equal(const vec3 v1, const vec3 v2)
 {
     return fabs(v1.x - v2.x) < EPSILON && fabs(v1.y - v2.y) < EPSILON &&
            fabs(v1.z - v2.z) < EPSILON;
