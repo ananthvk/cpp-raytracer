@@ -11,6 +11,7 @@ This is a raytracer written in C++ following the Ray tracing in one weekend book
 * Reflections, metals, refractions and glass
 * Simple geometric shapes such as spheres
 * Anti-aliasing
+* Multithreading
 
 ## Getting started
 ### Requirements
