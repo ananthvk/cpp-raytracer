@@ -49,7 +49,26 @@ Then run the application with
 ```
 #### On windows
 On windows, open the project in MSVC and build the project.
+Or you can also install mingw and use gcc for compilation.
 Run the generated executable.
+
+## Project structure
+A list of files in `src` directory with a short description.
+|File|Description|
+|-----|---------------|
+|[camera.cpp](src/camera.cpp) and [camera.hpp](src/camera.hpp)|Has the camera class, which produces rays cast into the scene|
+|[colors.hpp](src/colors.hpp)|Defines color types, lerp for color, common colors and gamma correction.|
+|[commons.hpp](src/commons.hpp)|Common functions - random number functions, intersection, interaction structs|
+|[config.hpp](src/config.hpp)|Default configuration for the raytracer|
+|[frombook.hpp](src/frombook.hpp)|Methods copied from book to test a particular functionality|
+|[image.hpp](src/image.hpp) and image.cpp|Functions for writing the image to a file|
+|[main.cpp](src/main.cpp)|Entry point for the program, `main` function|
+|[material.hpp](src/material.hpp) and [material.cpp](src/material.cpp)|Material class and defines various materials such as lambertian, glass, and metals.|
+|[objects.hpp](src/objects.hpp) and [objects.cpp](src/objects.cpp)|Different objects used in raytracing - spheres|
+|[progressbar.hpp](src/progressbar.hpp)|Functions to display progressbar on the console|
+|[raytracer.hpp](src/raytracer.hpp) and [raytracer.cpp](src/raytracer.cpp)|Single threaded and multi threaded raytracer class and functions. They perform the main task of raytracing|
+|[scene.hpp](src/scene.hpp) and [scene.cpp](src/scene.cpp)|Defines the scene to be used for raytracing.|
+
 
 ## Sample renders
 ![Final render of book 1](renders/final_100_50recursions.png)
